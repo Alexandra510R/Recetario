@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabores Colombianos - Recetario</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/2560px-Flag_of_Colombia.svg.png" alt="Bandera Colombia" class="flag">
+            <h1>Sabores Colombianos</h1>
+            <p>Recetario tradicional de Colombia</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="PaginaInicial.html">Inicio</a></li>
+                <li><a href="Recetas.html">Recetas</a></li>
+                <li><a href="Registro.html">Registro</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div>
+        <main class="container">
+            <section id="inicio">
+            ¬    <h2>Comparte tus conocimientos</h2>
+                <p>Regístrate para guardar tus recetas favoritas, compartir tus propias creaciones y conectarte con otros amantes de la cocina colombiana.</p>
+
+            </section>
+        </main>
+    </div>
+    <div class="form-section">
+                <div class="form-toggle">
+                    <div class="toggle-btn active" id="login-toggle">Iniciar Sesión</div>
+                    <div class="toggle-btn" id="register-toggle">Registrarse</div>
+                </div>
+                
+                <form id="login-form" class="form active">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="login-email" placeholder="usuario@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="login-password" placeholder="Tu contraseña" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Iniciar Sesión</button>
+                    
+                    <div class="social-login">
+                        <p>O inicia sesión con</p>
+                        <div class="social-icons">
+                            <div class="social-icon facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-icon google">
+                                <i class="fab fa-google"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
+                <form id="register-form" class="form">
+                    <div class="form-group">
+                        <label for="register-name">Nombre Completo</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="register-name" placeholder="Tu nombre completo" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Correo Electrónico</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="register-email" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="register-password" placeholder="Crea una contraseña segura" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-confirm">Confirmar Contraseña</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="register-confirm" placeholder="Repite tu contraseña" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Crear Cuenta</button>
+                    
+                </form>
+        </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sabores Colombianos</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const messageDiv = document.getElementById('message');
+            const userDataDiv = document.getElementById('userData');
+            
+            // Mostrar usuarios existentes al cargar la página
+            displayUsers();
+            
+            // Manejar el envío del formulario
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Obtener valores del formulario
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Validar que todos los campos estén completos
+                if (!name || !email || !password) {
+                    showMessage('Por favor, complete todos los campos.', 'error');
+                    return;
+                }
+                
+                // Validar formato de email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showMessage('Por favor, ingrese un correo electrónico válido.', 'error');
+                    return;
+                }
+                
+                // Crear objeto de usuario
+                const user = {
+                    id: Date.now(), // ID único basado en timestamp
+                    name: name,
+                    email: email,
+                    password: password, // En una aplicación real, esto debería estar encriptado
+                    registrationDate: new Date().toLocaleString()
+                };
+                
+                // Guardar usuario
+                saveUser(user);
+                
+                // Mostrar mensaje de éxito
+                showMessage('¡Registro exitoso! Su información ha sido guardada.', 'success');
+                
+                // Limpiar formulario
+                form.reset();
+                
+                // Actualizar lista de usuarios
+                displayUsers();
+            });
+            
+            // Función para guardar usuario en localStorage
+            function saveUser(user) {
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push(user);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Función para mostrar usuarios guardados
+            function displayUsers() {
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                if (users.length > 0) {
+                    document.querySelector('.users-list').style.display = 'block';
+                    userDataDiv.innerHTML = '';
+                    
+                    users.forEach(user => {
+                        const userDiv = document.createElement('div');
+                        userDiv.style.padding = '10px';
+                        userDiv.style.borderBottom = '1px solid #eee';
+                        userDiv.innerHTML = `
+                            <strong>${user.name}</strong> (${user.email})<br>
+                            <small>Registrado: ${user.registrationDate}</small>
+                        `;
+                        userDataDiv.appendChild(userDiv);
+                    });
+                } else {
+                    document.querySelector('.users-list').style.display = 'none';
+                }
+            }
+            
+            // Función para mostrar mensajes
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = 'message ' + type;
+                messageDiv.style.display = 'block';
+                
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
