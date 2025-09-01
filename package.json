@@ -1,0 +1,16 @@
+{
+  "name": "Recetario",
+  "version": "1.0.0",
+  "description": "Proyecto de recetas y formularios",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}
