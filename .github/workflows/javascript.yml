@@ -16,11 +16,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --save-dev jest jest-environment-jsdom 
+        run: npm install
 
       - name: Run tests
-        run: npx jest --ci --verbose
-
+        run: npm test
 
       - name: Validate HTML structure
         run: |
