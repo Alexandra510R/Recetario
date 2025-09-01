@@ -4,7 +4,8 @@
   "description": "Proyecto de recetas y formularios.",
   "main": "script.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "debug": "jest --verbose"
   },
   "devDependencies": {
     "jest": "^29.0.0",

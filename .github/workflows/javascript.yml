@@ -19,8 +19,8 @@ jobs:
         run: npm install --save-dev jest jest-environment-jsdom 
 
       - name: Run tests
-        run: npm test
-        
+        run: npx jest --ci --verbose
+
 
       - name: Validate HTML structure
         run: |

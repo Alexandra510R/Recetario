@@ -1,4 +1,8 @@
-1. Análisis y Planificación
+
+![JavaScript CI](https://github.com/Alexandra510R/Recetario.git/workflows/JavaScript%20CI/badge.svg)
+
+
+# 💰 1. Análisis y Planificación
 Objetivo del Proyecto
 Desarrollar un sistema web completo con formulario de registro, visualización de datos y integración con páginas existentes (inicio y recetas).
 
