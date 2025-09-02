@@ -1,6 +1,4 @@
-describe('Basic Math Tests', () => { 
-  test('basic arithmetic should work', () => { 
-    expect(1 + 1).toBe(2); 
-    expect(2 * 3).toBe(6); 
-  }); 
-}); 
+// Test básico de ejemplo
+test('suma de 1 + 2 es igual a 3', () => {
+  expect(1 + 2).toBe(3);
+});

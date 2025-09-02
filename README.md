@@ -1,5 +1,5 @@
 
-![JavaScript CI](https://github.com/Alexandra510R/Recetario.git/workflows/JavaScript%20CI/badge.svg)
+[![CI Status](https://github.com/Alexandra510R/Recetario/workflows/CI/badge.svg)](https://github.com/Alexandra510R/Recetario/actions)
 
 
 # 💰 1. Análisis y Planificación
