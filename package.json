@@ -1,0 +1,36 @@
+{
+  "name": "recetario",
+  "version": "1.0.0",
+  "description": "Proyecto de recetas y formularios",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.6.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jshint": "^2.13.6"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/*.test.js"
+    ]
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandra510R/Recetario.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Alexandra510R/Recetario/issues"
+  },
+  "homepage": "https://github.com/Alexandra510R/Recetario#readme"
+}
