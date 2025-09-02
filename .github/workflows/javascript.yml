@@ -8,7 +8,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -19,12 +21,9 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test
+        run: npx jest --ci --verbose
 
-      - name: Validate HTML structure
+      - name: Validate HTML
         run: |
-          if [ ! -f "PaginaInicial.html" ]; then
-            echo "Error: HTML file not found!"
-            exit 1
-          fi
-          echo "HTML validation passed"
+          npm install -g htmlhint
+          htmlhint index.html  # Ajusta esta ruta si es necesario
