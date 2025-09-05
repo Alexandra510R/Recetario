@@ -190,12 +190,12 @@ Presiona Ctrl + C en la terminal o utilizar el comando ``pkill -f "http.server``
 
   ```
 - Se configuraron validaciones básicas sobre HTML, CSS y JavaScript.
-- Se añadió un badge de estado en el archivo README.md para mostrar los resultados de la automatización.
+- Se añadió un badge de estado en el archivo README.md para mostrar los resultados de la automatización.![alt text](image.png)
  
         ```![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)``` 
 
 # Comprobación funcionamiento workflow
-
+![alt text](image-1.png)
 
 # 📚 ¿Que es y que hace workflow?
 
@@ -235,4 +235,8 @@ __Solución:__ Se modificó el código del workflow, reemplazando la referencia 
 - ✅ Desarrollo del aplicativo web Recetario
 - ✅ Implementación de un formulario funcional con validación
 - ✅ Despliegue exitoso del aplicativo en la instancia
+<<<<<<< HEAD
 - ✅ Despliegue exitoso del aplicativo en la instancia
+=======
+- ✅ Despliegue exitoso del aplicativo en la instancia
+>>>>>>> bd948cc (Correción README)
