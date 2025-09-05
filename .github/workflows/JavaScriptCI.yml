@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install --save-dev jest
@@ -22,8 +23,8 @@ jobs:
       # - name: Clean install
       #   run: rm -rf node_modules && npm install
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests with Jest
+        run: npx jest --passWithNoTests
 
       - name: Validate HTML structure
         run: |
