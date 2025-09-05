@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test
+        run: npx test
 
       - name: Validate HTML structure
         run: |
