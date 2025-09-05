@@ -230,9 +230,9 @@ __Solución:__ Se modificó el código del workflow, reemplazando la referencia 
 
 # 📊 Resultados Obtenidos
 
-✅ Creación de la instancia de manera correcta
-✅ Creación del repositorio en GitHub
-✅ Desarrollo del aplicativo web Recetario
-✅ Implementación de un formulario funcional con validación
-✅ Despliegue exitoso del aplicativo en la instancia
-✅ Despliegue exitoso del aplicativo en la instancia
+- ✅ Creación de la instancia de manera correcta
+- ✅ Creación del repositorio en GitHub
+- ✅ Desarrollo del aplicativo web Recetario
+- ✅ Implementación de un formulario funcional con validación
+- ✅ Despliegue exitoso del aplicativo en la instancia
+- ✅ Despliegue exitoso del aplicativo en la instancia
