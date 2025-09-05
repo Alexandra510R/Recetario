@@ -1,186 +1,238 @@
-
 ![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)
 
+# 💛💙❤️ **RECETARIO COLOMBIANO**
 
-# 💰 1. Análisis y Planificación
-Objetivo del Proyecto
-Desarrollar un sistema web completo con formulario de registro, visualización de datos y integración con páginas existentes (inicio y recetas).
+Esta plataforma web esta diseñada par que los amantes de la cocina pueden explorar, aprender y compartir recetas auténticas de todas las regiones del país de Colombia
 
-Estructura Definida
-Página de Inicio (existente) - Punto de entrada principal
+## 🔎 ¿Qué se puede hacer en la app?
 
-Página de Recetas (existente) - Contenido especializado
+__Descubrir recetas tradicionales:__ Se podran encuentrar platos típicos de cada rincón de Colombia, con ingredientes y pasos detallados.
 
-Formulario de Registro (nuevo) - Captura de datos de usuarios
+__Aprender a cocinar:__ Tutoriales fáciles de seguir, desde el sancocho hasta los buñuelos.
 
-Página de Visualización (nuevo) - Administración de registros
+__Unirte a la comunidad:__ Regístrate para guardar tus recetas favoritas, comentar y compartir tus propias creaciones culinarias.
 
-2. Desarrollo de Componentes
-Formulario de Registro (formulario.html)
-Campos implementados:
+## ✍️ Como funciona
 
-Nombre completo (obligatorio)
+La aplicación está organizada en tres secciones principales, cada una accesible desde el menú: Inicio, Recetario y Formulario.
 
-Email (obligatorio)
+Inicio: Presenta una breve descripción de la propuesta de la aplicación, acompañada de un video musical colombiano que resalta la riqueza cultural y las bellezas de nuestra región.
 
-Teléfono (opcional)
+Recetario: Ofrece tres recetas tradicionales colombianas, con el listado detallado de ingredientes y un video explicativo que guía paso a paso en la preparación de cada plato.
 
-Edad (opcional)
+Formulario: Contiene un espacio de registro que permite a los usuarios inscribirse para seguir recibiendo nuevos recetarios o, si lo desean, compartir sus propios conocimientos gastronómicos.
 
-Género (selector)
+# 📋 Requisitos Previos
 
-Área de interés (selector)
+- Instancia EC2 creada y corriendo
+- Security Group configurado con puertos 22 (SSH) y 8000 (desarrollo)
+- Acceso SSH a la instancia
+- Descarga de repositorio GitHub
 
-Mensaje (área de texto)
+# 🧱 Pasos de implementación
 
-Características técnicas:
+Antes de la implementación, es necesario contar con una instancia configurada y con la aplicación web que se desea desplegar para llevar a cabo el proceso.
 
-Validación de campos obligatorios
+## ▶️ Paso 1: Conectarse a la Instancia EC2
 
-Diseño responsive adaptable a dispositivos móviles
+1. Ve a AWS Console → EC2 → Instances
+2. Selecciona tu instancia
+3. Clic en "Connect"
+4. Selecciona "EC2 Instance Connect"
+5. Clic en "Connect"
 
-Interfaz de usuario intuitiva y moderna
+## 🔧 Paso 2: Preparar el Entorno
 
-Integración con navegación existente
+Actualizar sistema e instalar dependencias:
 
-Sistema de Almacenamiento (script.js)
-Tecnología utilizada: localStorage del navegador
+```
+sudo apt update
+sudo apt upgrade -y
+sudo apt install python3-pip python3-venv
+```
 
-Ventajas:
+## ⏬ Paso 3: Clonar el Repositorio
 
-No requiere base de datos externa
+- Ingresar a [GitHub](https://github.com/?utm_source=chatgpt.com)
+- Crear un nuevo repositorio en tu cuenta.
+- Seleccionar la opción <> Code y copiar la URL del repositorio.
+- Abrir la terminal y ejecutar el siguiente comando para clonar el repositorio:
 
-Los datos persisten entre sesiones
+```
+git clone https://github.com/Alexandra510R/Recetario.git
+```
 
-Fácil implementación y acceso
+- Crear un nuevo repositorio en tu cuenta.
 
-Estructura de datos: JSON con todos los registros
+Seleccionar la opción <> Code y copiar la URL del repositorio.
 
-Página de Visualización (registros.html)
-Funcionalidades:
+Abrir la terminal y ejecutar el siguiente comando para clonar el repositorio:
+``cd Recetario``
 
-Listado completo de registros
+## 💻 Paso 4: CREAR ESTRUCTURA DE APLICACIÓN
 
-Eliminación individual de registros
+- HTML/CSS/JS desde Visual Studio Code
+- Asegurar que los archivos esten creados en la carpeta del respositorio
 
-Opción de eliminar todos los registros
+## 🔁 Paso 5: Actualizaciones
 
-Contador de registros totales
+- Para enviar los cambios realizados desde tu equipo local al repositorio en GitHub, sigue estos pasos en la terminal:
 
-Diseño Visual (styles.css)
-Esquema de colores: Azul degradado profesional
+```
+git add . # Añade todos los cambios realizados
+git commit -m "Mensaje descriptivo"   # Registra los cambios con un comentario
+git push origin main   # Envía los cambios al repositorio remoto en la rama principal
 
-Tipografía: Segoe UI para mejor legibilidad
+```
 
-Layout: Sistema de grid responsive
+- Finalmente, confirma en la página del repositorio [GitHub](https://github.com/Alexandra510R/Recetario.git)
 
-Elementos UI: Tarjetas, botones con efectos hover, sombras suaves
+## 📰 Paso 6: Configurar Entorno Virtual
 
-3. Integración con Sistema Existente
-Navegación unificada entre todas las páginas
+- ### Crear entorno virtual
 
-Estilos consistentes con el diseño existente
+  ```python3 -m venv .venv```
+- ### Activar entorno virtual
 
-Mantenimiento de la estructura y flujo de usuario
+  ```source .venv/bin/**activate```
+  📦 Paso 5: Instalar Dependencias
+  ```pip install -r requirements.txt```
 
-4. Control de Calidad
-Validación de formularios en frontend
+## 📂 Paso 7: Configurar Base de Datos
 
-Manejo de errores en operaciones de almacenamiento
+- ### Crear archivos de migración
+
+  ```python manage.py makemigrations```
+- ### Aplicar migraciones
 
-Compatibilidad con navegadores modernos
+  ```python manage.py migrate```
 
-Experiencia de usuario optimizada
+## 🔂 Paso 8: Ejecutar el Servidor de Desarrollo
 
-5. Proceso de Despliegue
-Preparación del Entorno
-Acceso a la instancia mediante SSH con credenciales proporcionadas
+```python3 -m http.server 8000```
 
-Verificación de requisitos: Servidor web (Apache/Nginx) activo
+## 🌐 Paso 9: Acceder a la Aplicación
 
-Estructura de directorios creada en /var/www/html/
+Ir al navegador:
 
-Transferencia de Archivos
-Conexión FTP/SFTP usando FileZilla o similar
+```http://3.144.32.107:8000/PaginaInicial.html```
 
-Subida de archivos:
+## 🛑 Paso 10: Detener el Servidor
 
-formulario.html
+Presiona Ctrl + C en la terminal o utilizar el comando ``pkill -f "http.server``
 
-styles.css
+# ⚙️ Automatización con GitHub Actions
 
-script.js
+### A continuación, se describen los pasos realizados para la configuración de un flujo de automatización inicial con GitHub Actions:
 
-registros.html
+### 1. Preparación del Repositorio Existente
 
-Configuración del Servidor
-Verificación de permisos (755 para directorios, 644 para archivos)
+- Se utilizó el repositorio creado en el paso anterior.
+- Se agregó una prueba / validación básica en JavaScript.
+  ``` 
+  describe('Basic Math Tests', () => { 
+  test('basic arithmetic should work', () => { 
+    expect(1 + 1).toBe(2); 
+    expect(2 * 3).toBe(6); 
+  }); 
+  }); ``` 
+- Se verificó la presencia del archivo de dependencias package.json.
+  ```
+  {
+    "name": "my-app-tests",
+    "scripts": {
+    "test": "jest"
+    },
+    "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0"
+    },
+    "jest": {
+    "testEnvironment": "jsdom"
+    }
+  }
+  ```
+### 2. Configuración Básica de GitHub Actions
 
-Pruebas de acceso desde el navegador
+- Se creó la carpeta .github/workflows/ y se crea el archivo .yml con la siguiente estructura.
+  ```
+  name: JavaScript CI
 
-Validación de funcionalidades:
+    on:
+        push:
+            branches: [main]
 
-Envío de formulario
+    jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout repository
+            uses: actions/checkout@v3
 
-Almacenamiento de datos
+        - name: Setup Node.js
+            uses: actions/setup-node@v3
+            with:
+            node-version: '18'
 
-Visualización de registros
+        - name: Install dependencies
+            run: npm install
 
-Pruebas Finales
-Comprobación cross-browser (Chrome, Firefox, Safari)
+        - name: Run tests
+            run: npm test
 
-Pruebas en dispositivos móviles
+        - name: Validate HTML structure
+            run: |
+            if [ ! -f "PaginaInicial.html" ]; then
+            echo "Error: HTML file not found"
+            exit 1
+            fi
+            echo "HTML validation passed"
 
-Verificación de persistencia de datos
+  ```
+- Se configuraron validaciones básicas sobre HTML, CSS y JavaScript.
+- Se añadió un badge de estado en el archivo README.md para mostrar los resultados de la automatización.
+ 
+        ```![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)``` 
 
-Validación de rendimiento y tiempos de carga
+# Comprobación funcionamiento workflow
 
-6. Características Técnicas Destacadas
-Frontend
-HTML5 semántico para mejor SEO
 
-CSS3 con flexbox/grid para layouts modernos
+# 📚 ¿Que es y que hace workflow?
 
-JavaScript ES6 para funcionalidad interactiva
+__El workflow__ automatiza tareas dentro del repositorio.
+En este caso, se ejecuta cada vez que se suben cambios y se encarga de:
 
-Diseño mobile-first responsive
+Descargar el proyecto.
 
-Almacenamiento
-Uso de Web Storage API (localStorage)
+Validar que los archivos (HTML, CSS, JS) no tengan errores básicos.
 
-Serialización/deserialización JSON
+Ejecutar pruebas definidas en la carpeta test/.
 
-Manejo de errores en operaciones de almacenamiento
+Mostrar en GitHub si la ejecución fue exitosa ✅ o si hubo errores ❌ mediante un badge en el README.md.
 
-Experiencia de Usuario
-Feedback visual inmediato (alertas, actualización en tiempo real)
+#  Erores encontrados al momento de la implementación
 
-Navegación intuitiva entre secciones
+### 1. Error de sintaxis en archivo .yml
 
-Formularios con validación y mensajes de error claros
+![](/Imagenes/error1.png)
 
-7. Resultados Obtenidos
-✅ Formulario funcional con validación
+__Causa:__ Uso incorrecto de tabuladores en la estructura del archivo, lo cual no es soportado por YAML.
 
-✅ Sistema de almacenamiento persistente
+__Solución:__ Se corrigió la sintaxis reemplazando los tabuladores por espacios, garantizando la correcta indentación del archivo.
 
-✅ Página de administración de registros
+### 2. Error: No se localizó el repositorio
+![](/Imagenes/error2.png)
 
-✅ Integración perfecta con sitio existente
+__Causa:__ El workflow no logró resolver la acción htmllint/htmllint-action debido a que no se encontraba el repositorio especificado o la ruta definida era incorrecta.
 
-✅ Diseño responsive y moderno
+__Solución:__ Se modificó el código del workflow, reemplazando la referencia incorrecta a src/index.html por la ruta real del archivo en el repositorio: PaginaInicial.html.
 
-✅ Despliegue exitoso en instancia
 
-8. Posibles Mejoras Futuras
-Implementación de backend para almacenamiento permanente
+# 📊 Resultados Obtenidos
 
-Sistema de exportación de datos (CSV/Excel)
-
-Mecanismos de backup de la información
-
-Panel de administración más avanzado con búsquedas y filtros
-
-Integración con APIs de autenticación
-
-Este proyecto demuestra competencias en desarrollo frontend, diseño UX/UI, integración de sistemas y despliegue en entornos web, cumpliendo con todos los objetivos establecidos inicialmente.
+✅ Creación de la instancia de manera correcta
+✅ Creación del repositorio en GitHub
+✅ Desarrollo del aplicativo web Recetario
+✅ Implementación de un formulario funcional con validación
+✅ Despliegue exitoso del aplicativo en la instancia
+✅ Despliegue exitoso del aplicativo en la instancia
