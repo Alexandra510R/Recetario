@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-node@v3  # Action oficial para instalar Node.js
       with:
         node-version: '18'         # Versión específica de Node.js
-          cache: 'npm'
+        cache: 'npm'
 
     # PASO 3: Instalar dependencias para testing
     - name: Install testing dependencies
