@@ -235,6 +235,5 @@ __Solución:__ Se modificó el código del workflow, reemplazando la referencia 
 - ✅ Desarrollo del aplicativo web Recetario
 - ✅ Implementación de un formulario funcional con validación
 - ✅ Despliegue exitoso del aplicativo en la instancia
-- ✅ Despliegue exitoso del aplicativo en la instancia
-- ✅ Despliegue exitoso del aplicativo en la instancia
-- ✅ Despliegue exitoso del aplicativo en la instancia
+- ✅ Creacion de workflow
+- ✅ Automatización con GitHub Actions
