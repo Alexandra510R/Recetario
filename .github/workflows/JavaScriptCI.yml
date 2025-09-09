@@ -1,67 +1,93 @@
 name: JavaScript CI
-
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [ main ]
-
+  push:
+    branches: [ main ]
 jobs:
   test:
-    # Especifica el sistema operativo donde se ejecutará
     runs-on: ubuntu-latest
-
-    # Lista de pasos que se ejecutarán secuencialmente
     steps:
-    # PASO 1: Descargar el código del repositorio
-    - name: Checkout code
-      uses: actions/checkout@v3    # Action oficial de GitHub para descargar código
-
-    # PASO 2: Configurar Node.js para ejecutar JavaScript
-    - name: Set up Node.js
-      uses: actions/setup-node@v3  # Action oficial para instalar Node.js
+    - uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '18'         # Versión específica de Node.js
-        cache: 'npm'
-
-    # PASO 3: Instalar dependencias para testing
-    - name: Install testing dependencies
+        node-version: '18'
+    - name: Install dependencies
+      run: npm install --save-dev jest jest-environment-jsdom
+    - name: Run tests
+      run: npm test
+    - name: Validate HTML structure
       run: |
-        npm init -y  # Inicializar package.json automáticamente (responde "yes" a todo)
-        npm install --save-dev jest jest-environment-jsdom # Instalar Jest (framework de testing) y jsdom (simula navegador)
-
-    # PASO 4: Ejecutar los tests automatizados
-    - name: Run basic tests
-      run: |
-        # Ejecuta el comando 'npm test' que está definido en package.json
-        # Este comando ejecuta Jest y corre todos los archivos *.test.js
-        npm test
-
-    # PASO 5: Validar la estructura HTML y presencia de JavaScript
-    - name: Validate HTML and basic structure
-      run: |
-        # Verificar que el archivo HTML principal existe
         if [ ! -f "src/PaginaInicial.html" ]; then
-          echo "Error: src/PaginaInicial.html no encontrado"
-          exit 1                   # Salir con error si no existe
+          echo "Error: HTML file not found"
+          exit 1
         fi
-        
-        # Verificar que el archivo no está vacío
-        if [ ! -s "src/PaginaInicial.html" ]; then
-          echo "Error: src/PaginaInicial.html está vacío"
-          exit 1                   # Salir con error si está vacío
-        fi
-        
-        # Verificar que contiene etiquetas HTML básicas
-        if ! grep -q "<html" src/PaginaInicial.html; then
-          echo "Error: No se encontró tag HTML"
-          exit 1                   # Salir con error si no es HTML válido
-        fi
-        
-        # Verificar que contiene JavaScript embebido
-        if ! grep -q "<script>" src/PaginaInicial.html; then
-          echo "Error: No se encontró JavaScript"
-          exit 1                   # Salir con error si no tiene JavaScript
-        fi
-        
         echo "HTML validation passed"
+
+
+# name: JavaScript CI
+
+# on:
+#     push:
+#         branches: [main]
+#     pull_request:
+#         branches: [ main ]
+
+# jobs:
+#   test:
+#     # Especifica el sistema operativo donde se ejecutará
+#     runs-on: ubuntu-latest
+
+#     # Lista de pasos que se ejecutarán secuencialmente
+#     steps:
+#     # PASO 1: Descargar el código del repositorio
+#     - name: Checkout code
+#       uses: actions/checkout@v3    # Action oficial de GitHub para descargar código
+
+#     # PASO 2: Configurar Node.js para ejecutar JavaScript
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v3  # Action oficial para instalar Node.js
+#       with:
+#         node-version: '18'         # Versión específica de Node.js
+#         cache: 'npm'
+
+#     # PASO 3: Instalar dependencias para testing
+#     - name: Install testing dependencies
+#       run: |
+#         npm init -y  # Inicializar package.json automáticamente (responde "yes" a todo)
+#         npm install --save-dev jest jest-environment-jsdom # Instalar Jest (framework de testing) y jsdom (simula navegador)
+
+#     # PASO 4: Ejecutar los tests automatizados
+#     - name: Run basic tests
+#       run: |
+#         # Ejecuta el comando 'npm test' que está definido en package.json
+#         # Este comando ejecuta Jest y corre todos los archivos *.test.js
+#         npm test
+
+#     # PASO 5: Validar la estructura HTML y presencia de JavaScript
+#     - name: Validate HTML and basic structure
+#       run: |
+#         # Verificar que el archivo HTML principal existe
+#         if [ ! -f "src/PaginaInicial.html" ]; then
+#           echo "Error: src/PaginaInicial.html no encontrado"
+#           exit 1                   # Salir con error si no existe
+#         fi
+        
+#         # Verificar que el archivo no está vacío
+#         if [ ! -s "src/PaginaInicial.html" ]; then
+#           echo "Error: src/PaginaInicial.html está vacío"
+#           exit 1                   # Salir con error si está vacío
+#         fi
+        
+#         # Verificar que contiene etiquetas HTML básicas
+#         if ! grep -q "<html" src/PaginaInicial.html; then
+#           echo "Error: No se encontró tag HTML"
+#           exit 1                   # Salir con error si no es HTML válido
+#         fi
+        
+#         # Verificar que contiene JavaScript embebido
+#         if ! grep -q "<script>" src/PaginaInicial.html; then
+#           echo "Error: No se encontró JavaScript"
+#           exit 1                   # Salir con error si no tiene JavaScript
+#         fi
+        
+#         echo "HTML validation passed"

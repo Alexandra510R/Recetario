@@ -1,7 +1,7 @@
 {
-  "name": "expense-calculator-tests",
+  "name": "recetario-tests",
   "version": "1.0.0",
-  "description": "Tests for expense calculator app",
+  "description": "Tests for recetario app",
   "scripts": {
     "test": "jest"
   },
@@ -10,8 +10,6 @@
     "jest-environment-jsdom": "^29.0.0"
   },
   "jest": {
-    "testEnvironment": "jsdom",
-    "collectCoverage": false,
-    "verbose": true
+    "testEnvironment": "jsdom"
   }
 }
