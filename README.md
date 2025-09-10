@@ -1,4 +1,7 @@
+![AWS EC2](https://img.shields.io/badge/deploy-AWS%20EC2-orange?logo=amazon-aws)
 ![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)
+
 
 # 💛💙❤️ **RECETARIO COLOMBIANO**
 
@@ -228,6 +231,73 @@ __Causa:__ El workflow no logró resolver la acción htmllint/htmllint-action de
 __Solución:__ Se modificó el código del workflow, reemplazando la referencia incorrecta a src/index.html por la ruta real del archivo en el repositorio: PaginaInicial.html.
 
 
+# 🐳 Containerización con Docker
+
+La containerización consiste en empaquetar una aplicación junto con sus dependencias dentro de un contenedor.
+En este proyecto utilizamos Docker para crear una imagen ligera que incluye Nginx y los archivos estáticos de la aplicación (HTML, CSS y JavaScript).
+
+__🔹 Beneficios__
+
+Portabilidad: el contenedor funciona en cualquier máquina que tenga Docker.
+
+Aislamiento: no depende de la configuración del sistema anfitrión.
+
+Reproducibilidad: el mismo Dockerfile asegura que el entorno sea siempre idéntico.
+
+Escalabilidad: se pueden crear múltiples instancias fácilmente.
+
+## ⚙️ Requisitos previos para Docker Desktop en Windows
+
+* Docker instalado en tu máquina. Puedes obtenerlo desde: [Instalar Docker](https://docs.docker.com/get-started/get-docker/)
+* Docker Desktop (Windows):
+  - Windows 10/11 Pro, Enterprise o Education (para usar WSL 2 o Hyper-V).
+  - WSL 2 habilitado (Subsistema de Windows para Linux).
+  - Virtualización activada.
+  
+__⚠️ Nota: En Windows Home, Docker Desktop funciona únicamente con WSL 2, por lo que es necesario habilitarlo antes de la instalación.__
+
+
+## 🛠️ Construcción de la imagen
+
+Ejecuta en la raíz del proyecto:
+
+``` docker build -t recetario . ```
+
+Este comando:
+
+* Construye la imagen a partir del Dockerfile.
+* Copia los archivos de src/ a la carpeta de Nginx dentro del contenedor.
+* Expone el puerto 80 para servir la aplicación.
+
+## ▶️ Ejecución del contenedor
+
+Corre el contenedor mapeando el puerto 8080 del host al puerto 80 del contenedor:
+
+``` docker run -d -p 8080:80 recetario ```
+
+Este comando:
+
+* Construye el Docker
+* Crea el puerto teniendo en cuenta la imagen creada
+* Permite desde Docker Desktop ingresar a la pagina web
+
+## 🌐 Acceso a la aplicación
+
+Una vez el contenedor esté en ejecución, accede en tu navegador a:
+
+👉 http://localhost:8080
+
+## ⚖️ Comparación antes/después de containerizar
+
+| Aspecto    | Antes (sin contenedor) | Después (con Docker)  |
+|-----------|------|-----------|
+| Configuración del entorno | Requiere instalar Nginx manualmente y configurar rutas.   | Un Dockerfile define todo el entorno automáticamente.   |
+| Portabilidad | Depende del sistema operativo y de configuraciones locales.  | Funciona en cualquier máquina con Docker. |
+| Consistencia     | Puede variar entre desarrollo, pruebas y producción.  | El contenedor asegura que siempre sea el mismo entorno.  |
+| Tiempo de despliegue     | Lento, requiere instalar dependencias.   | Rápido, solo se construye y corre el contenedor.  |
+| Escalabilidad     | Compleja, requiere configurar varios servidores.  | Simple, basta con correr más contenedores.  |
+
+
 # 📊 Resultados Obtenidos
 
 - ✅ Creación de la instancia de manera correcta
@@ -237,3 +307,4 @@ __Solución:__ Se modificó el código del workflow, reemplazando la referencia 
 - ✅ Despliegue exitoso del aplicativo en la instancia
 - ✅ Creacion de workflow
 - ✅ Automatización con GitHub Actions
+- ✅ Containerización con Docker
