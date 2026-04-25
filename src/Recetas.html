@@ -1,97 +1,341 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabores Colombianos - Recetario</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabores Colombianos - Recetas</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/2560px-Flag_of_Colombia.svg.png" alt="Bandera Colombia" class="flag">
-            <h1>Sabores Colombianos</h1>
-            <p>Recetario tradicional de Colombia</p>
+
+<header>
+  <div class="container" style="text-align:center; padding: 1.5rem 20px;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/2560px-Flag_of_Colombia.svg.png" alt="Bandera Colombia" class="flag">
+      <div>
+        <h1>Sabores Colombianos</h1>
+        <p>Recetario tradicional de Colombia</p>
+      </div>
+    </div>
+    <div class="header-auth" id="header-auth" style="margin-top:1rem;">
+      <a href="Registro.html" class="btn-login">Iniciar Sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+  </div>
+</header>
+<nav>
+  <div class="container">
+    <ul>
+      <li><a href="PaginaInicial.html">🏠 Inicio</a></li>
+      <li><a href="Recetas.html" class="active">🍲 Recetas</a></li>
+      <li><a href="Registro.html">📝 Registro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section class="recetas-hero">
+    <h2>🍲 Recetas Tradicionales</h2>
+    <p>Descubre los sabores auténticos de nuestra tierra colombiana</p>
+  </section>
+
+  <div class="recetas-grid" id="recetas-container">
+
+    <!-- Receta 1: Ajiaco -->
+    <div class="receta-card">
+      <img src="https://www.shutterstock.com/image-vector/ajiaco-typical-colombian-food-rice-600nw-2142831521.jpg" alt="Ajiaco Santafereño">
+      <div class="receta-card-header">
+        <h3>Ajiaco Santafereño</h3>
+        <span class="region-badge">📍 Bogotá</span>
+      </div>
+      <div class="receta-body">
+        <div class="ingredientes">
+          <h4>🌿 Ingredientes:</h4>
+          <ul>
+            <li>Pechuga de pollo</li>
+            <li>Papa criolla, sabanera y pastusa</li>
+            <li>Guascas</li>
+            <li>Crema de leche</li>
+            <li>Alcaparras</li>
+          </ul>
         </div>
-    </header>
-
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="PaginaInicial.html">Inicio</a></li>
-                <li><a href="Recetas.html">Recetas</a></li>
-                <li><a href="Registro.html">Registro</a></li>
-            </ul>
+      </div>
+      <div class="receta-footer">
+        <a href="https://youtu.be/otLZDxQH28A?si=9DAS7I3P_-CcugwG" target="_blank" class="btn-video">▶️ Ver Video</a>
+        <button class="btn-favorito" onclick="toggleFavorito(this, 1)" data-id="1">⭐ Favorito</button>
+      </div>
+      <div class="comentarios-section">
+        <h4>💬 Comentarios</h4>
+        <div class="comentarios-lista" id="comentarios-1"></div>
+        <div class="comentario-form">
+          <input type="text" class="comentario-input" id="input-comentario-1" placeholder="Escribe un comentario...">
+          <button class="btn-comentar" onclick="agregarComentario(1)">Enviar</button>
         </div>
-    </nav>
+      </div>
+    </div>
 
-    <main class="container">
-        <section id="recetas">
-            <h2>Recetas Tradicionales</h2>
-            
-            <div class="receta-card">
-                <img src="https://www.shutterstock.com/image-vector/ajiaco-typical-colombian-food-rice-600nw-2142831521.jpg" alt="Ajiaco Santafereño">
-                <div class="receta-content">
-                    <h3>Ajiaco</h3>
-                    <p class="region">Región: Bogotá</p>
-                    <div class="ingredientes">
-                        <h4>Ingredientes:</h4>
-                        <ul>
-                            <li>Pechuga de pollo</li>
-                            <li>Papa criolla, sabanera y pastusa</li>
-                            <li>Guascas</li>
-                            <li>Crema de leche</li>
-                            <li>Alcaparras</li>
-                        </ul>
-                    </div>
-                    <a href="https://youtu.be/otLZDxQH28A?si=9DAS7I3P_-CcugwG" class="btn">Video receta ajiaco</a>
-                </div>
-            </div>
-
-            <div class="receta-card">
-                <img src="https://media.istockphoto.com/id/1971855755/es/vector/comida-tradicional-colombiana-hecha-a-base-de-carne-huevo-frito-salchichas-frijoles-aguacate.jpg?s=612x612&w=0&k=20&c=xB2ZhyGKXOruZmDPiWgf0_ooNIaiLTYjJ-xBh4aGGMQ=" alt="Bandeja Paisa">
-                <div class="receta-content">
-                    <h3>Bandeja Paisa</h3>
-                    <p class="region">Región: Antioquia</p>
-                    <div class="ingredientes">
-                        <h4>Ingredientes:</h4>
-                        <ul>
-                            <li>Frijoles rojos</li>
-                            <li>Arroz blanco</li>
-                            <li>Chicharrón</li>
-                            <li>Hogao</li>
-                            <li>Plátano maduro</li>
-                        </ul>
-                    </div>
-                    <a href="https://youtu.be/BCZ0-nvQGnY?si=dz5DOcBDLV1LdO5v" class="btn">Video receta bandeja paisa</a>
-                </div>
-            </div>
-
-            <div class="receta-card">
-                <img src="https://media.istockphoto.com/id/1483808955/es/vector/conjunto-de-arepas-vectoriales-plato-tradicional-de-la-cocina-colombiana-arepas-con-queso.jpg?s=612x612&w=0&k=20&c=0xTJKibMWYh9yQdiawLrRRiAppAmJlBTip6gFRS2eO0=" alt="Arepas">
-                <div class="receta-content">
-                    <h3>Arepas Colombianas</h3>
-                    <p class="region">Región: Todo el país</p>
-                    <div class="ingredientes">
-                        <h4>Ingredientes:</h4>
-                        <ul>
-                            <li>Harina de maíz</li>
-                            <li>Agua</li>
-                            <li>Sal</li>
-                            <li>Mantequilla</li>
-                            <li>Queso (opcional)</li>
-                        </ul>
-                    </div>
-                    <a href="https://youtu.be/uF9bhxeYvvc?si=YyDwL3nZgzwTxQQw" class="btn">Video receta arepa colombiana</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Sabores Colombianos</p>
+    <!-- Receta 2: Bandeja Paisa -->
+    <div class="receta-card">
+      <img src="https://media.istockphoto.com/id/1465671779/es/vector/bandeja-paisa.jpg?s=612x612&w=0&k=20&c=vJrBVsfAmMNflz1VESQblmfougD9u90vy8lhaS0lhhs=" alt="Bandeja Paisa">
+      <div class="receta-card-header">
+        <h3>Bandeja Paisa</h3>
+        <span class="region-badge">📍 Antioquia</span>
+      </div>
+      <div class="receta-body">
+        <div class="ingredientes">
+          <h4>🌿 Ingredientes:</h4>
+          <ul>
+            <li>Frijoles rojos</li>
+            <li>Arroz blanco</li>
+            <li>Chicharrón</li>
+            <li>Hogao</li>
+            <li>Plátano maduro</li>
+          </ul>
         </div>
-    </footer>
+      </div>
+      <div class="receta-footer">
+        <a href="https://youtu.be/BCZ0-nvQGnY?si=dz5DOcBDLV1LdO5v" target="_blank" class="btn-video">▶️ Ver Video</a>
+        <button class="btn-favorito" onclick="toggleFavorito(this, 2)" data-id="2">⭐ Favorito</button>
+      </div>
+      <div class="comentarios-section">
+        <h4>💬 Comentarios</h4>
+        <div class="comentarios-lista" id="comentarios-2"></div>
+        <div class="comentario-form">
+          <input type="text" class="comentario-input" id="input-comentario-2" placeholder="Escribe un comentario...">
+          <button class="btn-comentar" onclick="agregarComentario(2)">Enviar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receta 3: Arepas -->
+    <div class="receta-card">
+      <img src="https://media.istockphoto.com/id/1483808955/es/vector/conjunto-de-arepas-vectoriales-plato-tradicional-de-la-cocina-colombiana-arepas-con-queso.jpg?s=612x612&w=0&k=20&c=0xTJKibMWYh9yQdiawLrRRiAppAmJlBTip6gFRS2eO0=" alt="Arepas Colombianas">
+      <div class="receta-card-header">
+        <h3>Arepas Colombianas</h3>
+        <span class="region-badge">📍 Todo el país</span>
+      </div>
+      <div class="receta-body">
+        <div class="ingredientes">
+          <h4>🌿 Ingredientes:</h4>
+          <ul>
+            <li>Harina de maíz</li>
+            <li>Agua tibia</li>
+            <li>Sal al gusto</li>
+            <li>Mantequilla</li>
+            <li>Queso (opcional)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="receta-footer">
+        <a href="https://youtu.be/uF9bhxeYvvc?si=YyDwL3nZgzwTxQQw" target="_blank" class="btn-video">▶️ Ver Video</a>
+        <button class="btn-favorito" onclick="toggleFavorito(this, 3)" data-id="3">⭐ Favorito</button>
+      </div>
+      <div class="comentarios-section">
+        <h4>💬 Comentarios</h4>
+        <div class="comentarios-lista" id="comentarios-3"></div>
+        <div class="comentario-form">
+          <input type="text" class="comentario-input" id="input-comentario-3" placeholder="Escribe un comentario...">
+          <button class="btn-comentar" onclick="agregarComentario(3)">Enviar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Recetas de la API -->
+  <div style="max-width:1200px; margin: 0 auto; padding: 0 20px 3rem;">
+    <h2 style="font-family:'Playfair Display',serif; color:var(--azul); margin-bottom:1.5rem;">🍽️ Recetas de la Comunidad</h2>
+    <div class="recetas-grid" id="recetas-api" style="padding:0;"></div>
+  </div>
+</main>
+
+<!-- Modal Subir Receta -->
+<div class="modal-overlay" id="modal-receta">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <h2>🍳 Subir Receta</h2>
+    <div class="form-group">
+      <label>Título</label>
+      <input type="text" id="receta-titulo" placeholder="Ej: Sancocho de Gallina">
+    </div>
+    <div class="form-group">
+      <label>Región</label>
+      <input type="text" id="receta-region" placeholder="Ej: Antioquia">
+    </div>
+    <div class="form-group">
+      <label>Ingredientes</label>
+      <textarea id="receta-ingredientes" rows="3" placeholder="Separa cada ingrediente con coma"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Pasos</label>
+      <textarea id="receta-pasos" rows="4" placeholder="Describe el paso a paso..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>URL del Video (opcional)</label>
+      <input type="url" id="receta-video" placeholder="https://youtube.com/...">
+    </div>
+    <button class="btn-submit" onclick="subirReceta()">🚀 Publicar Receta</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia</p>
+</footer>
+
+<script>
+const API_URL = "http://127.0.0.1:8000";
+let usuario = JSON.parse(localStorage.getItem('usuario'));
+let token = localStorage.getItem('token');
+
+// Header auth
+if (usuario) {
+  document.getElementById('header-auth').innerHTML = `
+    <span id="user-greeting">👋 Hola, ${usuario.nombre.split(' ')[0]}</span>
+    <button class="btn-registro" onclick="abrirModal()">+ Subir Receta</button>
+    <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+  `;
+}
+
+function cerrarSesion() {
+  localStorage.removeItem('usuario');
+  localStorage.removeItem('token');
+  location.reload();
+}
+
+function mostrarToast(msg, tipo = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo} show`;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// Favoritos
+async function toggleFavorito(btn, recetaId) {
+  if (!usuario) return mostrarToast('¡Inicia sesión para guardar favoritos!', 'error');
+  btn.classList.toggle('activo');
+  btn.textContent = btn.classList.contains('activo') ? '❤️ Guardado' : '⭐ Favorito';
+
+  try {
+    await fetch(`${API_URL}/favoritos/?usuario_id=${usuario.id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ receta_id: recetaId })
+    });
+    mostrarToast(btn.classList.contains('activo') ? '¡Añadido a favoritos!' : 'Eliminado de favoritos');
+  } catch(e) {
+    mostrarToast('Error al guardar favorito', 'error');
+  }
+}
+
+// Comentarios
+async function agregarComentario(recetaId) {
+  if (!usuario) return mostrarToast('¡Inicia sesión para comentar!', 'error');
+  const input = document.getElementById(`input-comentario-${recetaId}`);
+  const contenido = input.value.trim();
+  if (!contenido) return;
+
+  try {
+    const res = await fetch(`${API_URL}/comentarios/?usuario_id=${usuario.id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contenido, receta_id: recetaId })
+    });
+    if (res.ok) {
+      input.value = '';
+      mostrarToast('¡Comentario publicado!');
+      cargarComentarios(recetaId);
+    }
+  } catch(e) {
+    // Mostrar localmente si falla API
+    const lista = document.getElementById(`comentarios-${recetaId}`);
+    lista.innerHTML += `<div class="comentario-item"><span class="comentario-autor">${usuario.nombre}</span><p>${contenido}</p></div>`;
+    input.value = '';
+  }
+}
+
+async function cargarComentarios(recetaId) {
+  try {
+    const res = await fetch(`${API_URL}/comentarios/${recetaId}`);
+    const comentarios = await res.json();
+    const lista = document.getElementById(`comentarios-${recetaId}`);
+    if (lista) {
+      lista.innerHTML = comentarios.map(c => `
+        <div class="comentario-item">
+          <span class="comentario-autor">👤 Usuario</span>
+          <p>${c.contenido}</p>
+        </div>
+      `).join('');
+    }
+  } catch(e) {}
+}
+
+// Cargar recetas de la API
+async function cargarRecetasAPI() {
+  try {
+    const res = await fetch(`${API_URL}/recetas/`);
+    const recetas = await res.json();
+    const container = document.getElementById('recetas-api');
+    if (recetas.length === 0) {
+      container.innerHTML = '<p style="color:#888; grid-column:1/-1;">No hay recetas de la comunidad aún. ¡Sé el primero en subir una!</p>';
+      return;
+    }
+    container.innerHTML = recetas.map(r => `
+      <div class="receta-card">
+        <div class="receta-card-header">
+          <h3>${r.titulo}</h3>
+          <span class="region-badge">📍 ${r.region}</span>
+        </div>
+        <div class="receta-body">
+          <div class="ingredientes">
+            <h4>🌿 Ingredientes:</h4>
+            <ul>${r.ingredientes.split(',').map(i => `<li>${i.trim()}</li>`).join('')}</ul>
+          </div>
+          <p style="margin-top:1rem; color:#555; font-size:0.9rem;">${r.pasos.substring(0, 120)}...</p>
+        </div>
+        <div class="receta-footer">
+          ${r.video_url ? `<a href="${r.video_url}" target="_blank" class="btn-video">▶️ Ver Video</a>` : ''}
+          <button class="btn-favorito" onclick="toggleFavorito(this, ${r.id})">⭐ Favorito</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {}
+}
+
+// Modal subir receta
+function abrirModal() { document.getElementById('modal-receta').classList.add('active'); }
+function cerrarModal() { document.getElementById('modal-receta').classList.remove('active'); }
+
+async function subirReceta() {
+  const titulo = document.getElementById('receta-titulo').value;
+  const region = document.getElementById('receta-region').value;
+  const ingredientes = document.getElementById('receta-ingredientes').value;
+  const pasos = document.getElementById('receta-pasos').value;
+  const video_url = document.getElementById('receta-video').value;
+
+  if (!titulo || !region || !ingredientes || !pasos) return mostrarToast('Completa todos los campos obligatorios', 'error');
+
+  try {
+    const res = await fetch(`${API_URL}/recetas/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ titulo, region, ingredientes, pasos, video_url, imagen_url: '' })
+    });
+    if (res.ok) {
+      cerrarModal();
+      mostrarToast('¡Receta publicada exitosamente! 🎉');
+      cargarRecetasAPI();
+    }
+  } catch(e) {
+    mostrarToast('Error al publicar la receta', 'error');
+  }
+}
+
+// Inicializar
+cargarRecetasAPI();
+[1, 2, 3].forEach(id => cargarComentarios(id));
+</script>
+
 </body>
 </html>
