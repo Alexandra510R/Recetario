@@ -1,4 +1,9 @@
-# 🎨 Frontend — Sabores Colombianos
+![AWS EC2](https://img.shields.io/badge/deploy-AWS%20EC2-orange?logo=amazon-aws)
+![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)
+
+
+# 💛💙❤️ **RECETARIO COLOMBIANO**
 
 Documentación del frontend de la aplicación **Sabores Colombianos**, una plataforma web para explorar, compartir y aprender recetas tradicionales colombianas.
 
