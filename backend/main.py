@@ -2,7 +2,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from .database import engine, Base, get_db
-from .routers import recetas, usuarios, favoritos, comentarios
+from .routers import recetas, usuarios, favoritos, comentarios, exportar
+from prometheus_fastapi_instrumentator import Instrumentator
 
 Base.metadata.create_all(bind=engine)
 
@@ -16,7 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Prometheus metrics
 Instrumentator().instrument(app).expose(app)
 
 app.include_router(usuarios.router, prefix="/usuarios", tags=["Usuarios"])
@@ -42,8 +42,3 @@ def migrate(db: Session = Depends(get_db)):
         return {"mensaje": "Migracion exitosa"}
     except Exception as e:
         return {"mensaje": f"Ya existe o error: {str(e)}"}
-
-from .routers import recetas, usuarios, favoritos, comentarios, exportar
-
-# Y después de los otros routers:
-app.include_router(exportar.router, prefix="/recetas", tags=["Exportar"])
