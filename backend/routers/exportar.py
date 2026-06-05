@@ -22,31 +22,25 @@ def exportar_receta_pdf(receta_id: int, db: Session = Depends(get_db)):
     styles = getSampleStyleSheet()
     story = []
 
-    # Título
-    story.append(Paragraph(f"🍽️ {receta.titulo}", styles['Title']))
+    story.append(Paragraph(f"Sabores Colombianos - {receta.titulo}", styles['Title']))
     story.append(Spacer(1, 0.2 * inch))
 
-    # Descripción
-    if receta.descripcion:
-        story.append(Paragraph("Descripción", styles['Heading2']))
-        story.append(Paragraph(receta.descripcion, styles['Normal']))
-        story.append(Spacer(1, 0.2 * inch))
+    if receta.region:
+        story.append(Paragraph(f"Region: {receta.region}", styles['Heading2']))
+        story.append(Spacer(1, 0.1 * inch))
 
-    # Ingredientes
     if receta.ingredientes:
         story.append(Paragraph("Ingredientes", styles['Heading2']))
         story.append(Paragraph(receta.ingredientes, styles['Normal']))
         story.append(Spacer(1, 0.2 * inch))
 
-    # Instrucciones
-    if receta.instrucciones:
-        story.append(Paragraph("Instrucciones", styles['Heading2']))
-        story.append(Paragraph(receta.instrucciones, styles['Normal']))
+    if receta.pasos:
+        story.append(Paragraph("Preparacion", styles['Heading2']))
+        story.append(Paragraph(receta.pasos, styles['Normal']))
         story.append(Spacer(1, 0.2 * inch))
 
-    # Categoría
-    if receta.categoria:
-        story.append(Paragraph(f"Categoría: {receta.categoria}", styles['Normal']))
+    if receta.video_url:
+        story.append(Paragraph(f"Video: {receta.video_url}", styles['Normal']))
 
     doc.build(story)
     buffer.seek(0)
