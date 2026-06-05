@@ -42,3 +42,8 @@ def migrate(db: Session = Depends(get_db)):
         return {"mensaje": "Migracion exitosa"}
     except Exception as e:
         return {"mensaje": f"Ya existe o error: {str(e)}"}
+
+from .routers import recetas, usuarios, favoritos, comentarios, exportar
+
+# Y después de los otros routers:
+app.include_router(exportar.router, prefix="/recetas", tags=["Exportar"])
