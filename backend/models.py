@@ -17,6 +17,7 @@ class Usuario(Base):
     created_at = Column(DateTime, server_default=func.now())
     favoritos = relationship("Favorito", back_populates="usuario")
     comentarios = relationship("Comentario", back_populates="usuario")
+    recetas = relationship("Receta", back_populates="usuario")
 
 class Receta(Base):
     __tablename__ = "recetas"
@@ -27,9 +28,12 @@ class Receta(Base):
     pasos = Column(Text, nullable=False)
     video_url = Column(String(500))
     imagen_url = Column(String(500))
+    # usuario_id es opcional para no romper recetas existentes
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=True)
     created_at = Column(DateTime, server_default=func.now())
     favoritos = relationship("Favorito", back_populates="receta")
     comentarios = relationship("Comentario", back_populates="receta")
+    usuario = relationship("Usuario", back_populates="recetas")
 
 class Favorito(Base):
     __tablename__ = "favoritos"

@@ -6,12 +6,24 @@ from ..database import get_db
 
 router = APIRouter()
 
-@router.get("/{receta_id}", response_model=List[schemas.ComentarioResponse])
+@router.get("/{receta_id}")
 def obtener_comentarios(receta_id: int, db: Session = Depends(get_db)):
-    return db.query(models.Comentario).filter(models.Comentario.receta_id == receta_id).all()
+    comentarios = db.query(models.Comentario).filter(
+        models.Comentario.receta_id == receta_id
+    ).all()
+    return [{"id": c.id, "contenido": c.contenido, "usuario_id": c.usuario_id, 
+             "receta_id": c.receta_id, "created_at": c.created_at} for c in comentarios]
 
-@router.post("/", response_model=schemas.ComentarioResponse)
+@router.post("/")
 def crear_comentario(comentario: schemas.ComentarioCreate, usuario_id: int, db: Session = Depends(get_db)):
+    # Verificar que la receta existe
+    receta = db.query(models.Receta).filter(models.Receta.id == comentario.receta_id).first()
+    if not receta:
+        raise HTTPException(status_code=404, detail="Receta no encontrada")
+    # Verificar que el usuario existe
+    usuario = db.query(models.Usuario).filter(models.Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
     nuevo = models.Comentario(
         contenido=comentario.contenido,
         receta_id=comentario.receta_id,
@@ -20,7 +32,8 @@ def crear_comentario(comentario: schemas.ComentarioCreate, usuario_id: int, db: 
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
-    return nuevo
+    return {"id": nuevo.id, "contenido": nuevo.contenido, "usuario_id": nuevo.usuario_id,
+            "receta_id": nuevo.receta_id, "created_at": nuevo.created_at}
 
 @router.delete("/{comentario_id}")
 def eliminar_comentario(comentario_id: int, db: Session = Depends(get_db)):

@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from .. import models, schemas
 from ..database import get_db
 
 router = APIRouter()
 
 @router.get("/", response_model=List[schemas.RecetaResponse])
-def obtener_recetas(db: Session = Depends(get_db)):
-    return db.query(models.Receta).all()
+def obtener_recetas(usuario_id: Optional[int] = None, db: Session = Depends(get_db)):
+    query = db.query(models.Receta)
+    if usuario_id:
+        query = query.filter(models.Receta.usuario_id == usuario_id)
+    return query.all()
 
 @router.get("/{receta_id}", response_model=schemas.RecetaResponse)
 def obtener_receta(receta_id: int, db: Session = Depends(get_db)):
@@ -18,8 +21,10 @@ def obtener_receta(receta_id: int, db: Session = Depends(get_db)):
     return receta
 
 @router.post("/", response_model=schemas.RecetaResponse)
-def crear_receta(receta: schemas.RecetaCreate, db: Session = Depends(get_db)):
-    nueva = models.Receta(**receta.dict())
+def crear_receta(receta: schemas.RecetaCreate, usuario_id: Optional[int] = None, db: Session = Depends(get_db)):
+    datos = receta.dict()
+    datos['usuario_id'] = usuario_id
+    nueva = models.Receta(**datos)
     db.add(nueva)
     db.commit()
     db.refresh(nueva)
