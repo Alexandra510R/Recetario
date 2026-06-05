@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, Any
 
 class UsuarioCreate(BaseModel):
     nombre: str
@@ -24,6 +24,7 @@ class UsuarioResponse(BaseModel):
     created_at: datetime
     class Config:
         from_attributes = True
+
 # Recetas
 class RecetaCreate(BaseModel):
     titulo: str
@@ -35,6 +36,7 @@ class RecetaCreate(BaseModel):
 
 class RecetaResponse(RecetaCreate):
     id: int
+    usuario_id: Optional[int] = None
     created_at: datetime
     class Config:
         from_attributes = True
@@ -68,3 +70,4 @@ class ComentarioResponse(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    usuario: Optional[Dict[str, Any]] = None
