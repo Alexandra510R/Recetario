@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Admin</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html">
+    <span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span>
+  </a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html" class="active">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="SaberMas.html">👩🏼‍🍳🧑🏽‍🍳 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="PaginaInicial.html">🏠 Inicio</a>
+  <a href="Recetas.html">🍲 Recetas</a>
+  <a href="IaChef.html">🤖 IA Chef</a>
+  <a href="Calendario.html">📅 Calendario</a>
+  <a href="SaberMas.html">👩🏼‍🍳 Saber más</a>
+</div>
+
+<main>
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-label">Panel Admin</div>
+      <div class="admin-nav-item active" onclick="irSeccion('dashboard',this)">📊 Dashboard</div>
+      <div class="admin-nav-item" onclick="irSeccion('recetas',this)">✅ Recetas publicadas</div>
+      <div class="admin-nav-item" onclick="irSeccion('usuarios',this)">👥 Usuarios</div>
+      <div class="admin-nav-item" onclick="irSeccion('comentarios',this)">💬 Comentarios</div>
+      <div class="admin-nav-item" onclick="irSeccion('estadisticas',this)">📈 Estadísticas</div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="admin-content">
+
+      <!-- DASHBOARD -->
+      <div id="sec-dashboard">
+        <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;">Dashboard</h2>
+        <div class="admin-stat-grid" id="stat-grid">
+          <div class="admin-stat-card"><div class="admin-stat-label">Recetas totales</div><div class="admin-stat-value" id="stat-recetas">—</div><div class="admin-stat-delta">Cargando...</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Usuarios registrados</div><div class="admin-stat-value" id="stat-usuarios">—</div><div class="admin-stat-delta">Cargando...</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Favoritos totales</div><div class="admin-stat-value" id="stat-favoritos-total">—</div><div class="admin-stat-delta">De todos los usuarios</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Comentarios totales</div><div class="admin-stat-value" id="stat-comentarios">—</div><div class="admin-stat-delta">En todas las recetas</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;">
+            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;">Recetas más recientes</h3>
+            <div id="recetas-recientes" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;">
+            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;">Usuarios recientes</h3>
+            <div id="usuarios-recientes" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APROBAR RECETAS -->
+      <div id="sec-recetas" style="display:none;">
+        <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;">Gestión de Recetas</h2>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+          <table class="data-table">
+            <thead><tr><th>Título</th><th>Región</th><th>Video</th><th>Acciones</th></tr></thead>
+            <tbody id="tabla-recetas"><tr><td colspan="4" style="text-align:center;color:var(--text-hint);padding:2rem;">Cargando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- USUARIOS -->
+      <div id="sec-usuarios" style="display:none;">
+        <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;">Gestión de Usuarios</h2>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+          <table class="data-table">
+            <thead><tr><th>Nombre</th><th>Email</th><th>Interés</th><th>Acciones</th></tr></thead>
+            <tbody id="tabla-usuarios"><tr><td colspan="4" style="text-align:center;color:var(--text-hint);padding:2rem;">Cargando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COMENTARIOS -->
+      <div id="sec-comentarios" style="display:none;">
+        <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;">Moderación de Comentarios</h2>
+        <div id="lista-comentarios" style="display:flex;flex-direction:column;gap:0.75rem;">
+          <p style="color:var(--text-hint);">Cargando comentarios...</p>
+        </div>
+      </div>
+
+      <!-- ESTADÍSTICAS -->
+      <div id="sec-estadisticas" style="display:none;">
+        <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;">Estadísticas</h2>
+        <div class="admin-stat-grid">
+          <div class="admin-stat-card"><div class="admin-stat-label">Recetas activas</div><div class="admin-stat-value" id="stat-recetas-2">—</div><div class="admin-stat-delta">Del backend</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Con video</div><div class="admin-stat-value" id="stat-con-video">—</div><div class="admin-stat-delta">Tienen URL</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Usuarios</div><div class="admin-stat-value" id="stat-usuarios-2">—</div><div class="admin-stat-delta">Registrados</div></div>
+          <div class="admin-stat-card"><div class="admin-stat-label">Regiones</div><div class="admin-stat-value" id="stat-regiones">—</div><div class="admin-stat-delta">Representadas</div></div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:1.25rem;">
+          <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1.25rem;">Recetas por región</h3>
+          <div id="barras-region" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer><p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p></footer>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+<script>
+let recetasData  = [];
+let usuariosData = [];
+
+function irSeccion(id, el) {
+  ['dashboard','recetas','usuarios','comentarios','estadisticas'].forEach(s => {
+    document.getElementById(`sec-${s}`).style.display = s === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('.admin-nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+async function cargarDatos() {
+  // Recetas
+  try {
+    const res = await fetch(`${API_URL}/recetas/`);
+    const todasRecetas = await res.json();
+    // Filtrar recetas estáticas del sistema solo para el panel de aprobación
+    const titulosEstaticos = ['Ajiaco Santafereño','Bandeja Paisa','Arepas Colombianas'];
+    recetasData = todasRecetas.filter(r => !titulosEstaticos.includes(r.titulo));
+    window.recetasParaStats = todasRecetas;
+    document.getElementById('stat-recetas').textContent   = window.recetasParaStats.length;
+    document.getElementById('stat-recetas-2').textContent = window.recetasParaStats.length;
+    const conVideo = window.recetasParaStats.filter(r => r.video_url).length;
+    document.getElementById('stat-con-video').textContent = conVideo;
+
+    document.getElementById('tabla-recetas').innerHTML = recetasData.map(r => `
+      <tr>
+        <td><strong>${r.titulo}</strong></td>
+        <td><span class="status-badge status-approved">${r.region}</span></td>
+        <td>${r.video_url ? `<a href="${r.video_url}" target="_blank" style="color:var(--rojo);">▶️ Ver</a>` : '<span style="color:var(--text-hint);">—</span>'}</td>
+        <td><button class="action-btn reject" onclick="eliminarReceta(${r.id},this)">🗑️ Eliminar</button></td>
+      </tr>`).join('');
+
+    document.getElementById('recetas-recientes').innerHTML = window.recetasParaStats.slice(0,5).map(r => `
+      <div style="display:flex;justify-content:space-between;font-size:0.84rem;padding:0.4rem 0;border-bottom:1px solid var(--border);">
+        <span>🍽️ ${r.titulo}</span>
+        <span style="color:var(--text-hint);">${r.region}</span>
+      </div>`).join('') || '<p style="color:var(--text-hint);font-size:0.84rem;">Sin recetas aún</p>';
+
+    const porRegion = {};
+    window.recetasParaStats.forEach(r => { porRegion[r.region] = (porRegion[r.region]||0) + 1; });
+    document.getElementById('stat-regiones').textContent = Object.keys(porRegion).length;
+    const total = window.recetasParaStats.length || 1;
+    const colors = ['var(--amarillo)','var(--rojo)','var(--verde)','var(--azul)','var(--naranja)','#1ABC9C'];
+    document.getElementById('barras-region').innerHTML = Object.entries(porRegion).map(([reg,cnt],i) => `
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem;">
+          <span>${reg}</span><span>${Math.round(cnt/total*100)}%</span>
+        </div>
+        <div style="height:8px;background:var(--bg-surface);border-radius:100px;overflow:hidden;">
+          <div style="height:100%;width:${Math.round(cnt/total*100)}%;background:${colors[i%colors.length]};border-radius:100px;"></div>
+        </div>
+      </div>`).join('') || '<p style="color:var(--text-hint);font-size:0.84rem;">Sin datos</p>';
+
+  } catch(e) { document.getElementById('stat-recetas').textContent = '—'; }
+
+  // Usuarios
+  try {
+    const res = await fetch(`${API_URL}/usuarios/`);
+    usuariosData = await res.json();
+    document.getElementById('stat-usuarios').textContent   = usuariosData.length;
+    document.getElementById('stat-usuarios-2').textContent = usuariosData.length;
+
+    document.getElementById('tabla-usuarios').innerHTML = usuariosData.map(u => `
+      <tr>
+        <td><strong>${u.nombre}</strong></td>
+        <td style="color:var(--text-muted);">${u.email}</td>
+        <td>${u.interes || '—'}</td>
+        <td style="display:flex;gap:0.35rem;">
+          <button class="action-btn" onclick="mostrarToast('👤 '+u.nombre)">Ver</button>
+          <button class="action-btn reject" onclick="eliminarUsuario(${u.id},this)">🗑️ Eliminar</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-hint);padding:2rem;">Sin usuarios</td></tr>';
+
+    document.getElementById('usuarios-recientes').innerHTML = usuariosData.slice(0,5).map(u => `
+      <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.84rem;padding:0.4rem 0;border-bottom:1px solid var(--border);">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--amarillo-lt);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--cafe);">${u.nombre[0].toUpperCase()}</div>
+        <span>${u.nombre}</span>
+        <span style="margin-left:auto;color:var(--text-hint);font-size:0.75rem;">${u.email}</span>
+      </div>`).join('') || '<p style="color:var(--text-hint);font-size:0.84rem;">Sin usuarios aún</p>';
+
+  } catch(e) { document.getElementById('stat-usuarios').textContent = '—'; }
+
+  // Favoritos totales — sumar favoritos de todos los usuarios
+  try {
+    let totalFavs = 0;
+    for (const u of usuariosData) {
+      try {
+        const rf = await fetch(`${API_URL}/favoritos/${u.id}`);
+        const favs = await rf.json();
+        totalFavs += favs.length;
+      } catch(e) {}
+    }
+    const elFav = document.getElementById('stat-favoritos-total');
+    if (elFav) elFav.textContent = totalFavs;
+  } catch(e) {}
+
+  // Comentarios — cargar de todas las recetas
+  try {
+    const listaComentarios = document.getElementById('lista-comentarios');
+    const todosComentar = [];
+    for (const r of window.recetasParaStats.slice(0, 10)) {
+      try {
+        const cr = await fetch(`${API_URL}/comentarios/${r.id}`);
+        const cs = await cr.json();
+        cs.forEach(c => todosComentar.push({ ...c, receta: r.titulo }));
+      } catch(e) {}
+    }
+    document.getElementById('stat-comentarios').textContent = todosComentar.length;
+    listaComentarios.innerHTML = todosComentar.length
+      ? todosComentar.map(c => `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">
+          <div>
+            <div style="font-size:0.78rem;color:var(--text-hint);margin-bottom:0.25rem;">En: <strong>${c.receta}</strong></div>
+            <div style="font-size:0.88rem;">${c.contenido}</div>
+          </div>
+          <div style="display:flex;gap:0.35rem;">
+            <button class="action-btn reject" onclick="eliminarComentario(${c.id},this)">🗑️</button>
+          </div>
+        </div>`).join('')
+      : '<p style="color:var(--text-hint);">No hay comentarios aún.</p>';
+  } catch(e) {}
+}
+
+async function eliminarReceta(id, btn) {
+  if (!confirm('¿Eliminar esta receta?')) return;
+  try {
+    const res = await fetch(`${API_URL}/recetas/${id}`, { method: 'DELETE' });
+    if (res.ok) { btn.closest('tr').remove(); mostrarToast('🗑️ Receta eliminada'); cargarDatos(); }
+    else mostrarToast('Error al eliminar', 'error');
+  } catch(e) { mostrarToast('Error de conexión', 'error'); }
+}
+
+async function eliminarUsuario(id, btn) {
+  if (!confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.')) return;
+  try {
+    const res = await fetch(`${API_URL}/usuarios/${id}`, { method: 'DELETE' });
+    if (res.ok) { btn.closest('tr').remove(); mostrarToast('🗑️ Usuario eliminado'); cargarDatos(); }
+    else mostrarToast('Error al eliminar usuario', 'error');
+  } catch(e) { mostrarToast('Error de conexión', 'error'); }
+}
+
+async function eliminarComentario(id, btn) {
+  if (!confirm('¿Eliminar este comentario?')) return;
+  try {
+    const res = await fetch(`${API_URL}/comentarios/${id}`, { method: 'DELETE' });
+    if (res.ok) { btn.closest('div[style]').remove(); mostrarToast('🗑️ Comentario eliminado'); }
+    else mostrarToast('Error al eliminar', 'error');
+  } catch(e) { mostrarToast('Error de conexión', 'error'); }
+}
+
+cargarDatos();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Calendario</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html"><span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span></a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html" class="active">📅 Calendario</a>
+    <a href="SaberMas.html">👩🏼‍🍳🧑🏽‍🍳 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="PaginaInicial.html">🏠 Inicio</a>
+  <a href="Recetas.html">🍲 Recetas</a>
+  <a href="IaChef.html">🤖 IA Chef</a>
+</div>
+
+<main>
+
+<main>
+  <section style="background:var(--azul);padding:3.5rem 1.5rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 120%,rgba(245,166,35,0.18) 0%,transparent 65%);pointer-events:none;"></div>
+    <div class="section-label" style="margin-bottom:0.75rem;">Planificación</div>
+    <h2 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;position:relative;">📅 Calendario de Comidas</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:1rem;position:relative;">Planifica tus comidas para toda la semana con recetas colombianas</p>
+  </section>
+
+  <section style="padding:4rem 0;">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start;">
+
+        <!-- Calendario -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;" id="cal-titulo">Junio 2025</h3>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="action-btn" onclick="cambiarMes(-1)">◀</button>
+              <button class="action-btn" onclick="cambiarMes(1)">▶</button>
+            </div>
+          </div>
+          <div class="calendar-grid">
+            <div class="cal-header">Dom</div><div class="cal-header">Lun</div>
+            <div class="cal-header">Mar</div><div class="cal-header">Mié</div>
+            <div class="cal-header">Jue</div><div class="cal-header">Vie</div>
+            <div class="cal-header">Sáb</div>
+          </div>
+          <div class="calendar-grid mt-1" id="cal-grid"></div>
+        </div>
+
+        <!-- Plan semanal -->
+        <div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+              <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;">Esta semana</h3>
+              <button class="btn-hero-primary" style="font-size:0.78rem;padding:0.42rem 0.85rem;" onclick="generarSemana()">🎲 Aleatorio</button>
+            </div>
+            <div class="week-plan" id="week-plan"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p></footer>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+<script>
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DIAS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+const recetasSemana = [
+  { emoji:'🍲', nombre:'Ajiaco Santafereño' },
+  { emoji:'🫓', nombre:'Arepas con queso' },
+  { emoji:'🐔', nombre:'Sancocho de gallina' },
+  { emoji:'🥘', nombre:'Bandeja Paisa' },
+  { emoji:'🐟', nombre:'Cazuela de mariscos' },
+  { emoji:'🌽', nombre:'Changua bogotana' },
+  { emoji:'🍮', nombre:'Buñuelos de yuca' },
+];
+
+let planSemana = [...recetasSemana];
+let mesActual  = new Date().getMonth();
+let añoActual  = new Date().getFullYear();
+
+// Recetas de la API
+let recetasAPI = [];
+fetch(`${API_URL}/recetas/`).then(r => r.json()).then(d => { recetasAPI = d; }).catch(() => {});
+
+function renderCalendario() {
+  document.getElementById('cal-titulo').textContent = `${MESES[mesActual]} ${añoActual}`;
+  const grid    = document.getElementById('cal-grid');
+  const primero = new Date(añoActual, mesActual, 1).getDay();
+  const dias    = new Date(añoActual, mesActual + 1, 0).getDate();
+  const hoy     = new Date();
+  let html = '';
+  for (let i = 0; i < primero; i++) html += '<div></div>';
+  for (let d = 1; d <= dias; d++) {
+    const esHoy    = d === hoy.getDate() && mesActual === hoy.getMonth() && añoActual === hoy.getFullYear();
+    const tieneRec = [3,7,10,14,17,21,24,28].includes(d);
+    html += `<div class="cal-day ${esHoy?'today':''} ${tieneRec&&!esHoy?'has-recipe':''}"
+      onclick="mostrarToast('📅 Día ${d}: ${tieneRec ? planSemana[d%7].nombre : 'Sin receta planificada'}')"
+      title="${tieneRec ? planSemana[d%7].nombre : ''}">${d}${tieneRec?'<div class="cal-dot"></div>':''}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function cambiarMes(dir) {
+  mesActual += dir;
+  if (mesActual < 0)  { mesActual = 11; añoActual--; }
+  if (mesActual > 11) { mesActual = 0;  añoActual++; }
+  renderCalendario();
+}
+
+function renderSemana() {
+  document.getElementById('week-plan').innerHTML = DIAS.slice(1).concat(DIAS[0]).map((d,i) => `
+    <div class="week-item">
+      <span class="week-day">${d}</span>
+      <span style="font-size:0.88rem;">${planSemana[i].emoji} ${planSemana[i].nombre}</span>
+      <button onclick="editarDia(${i})" style="font-size:0.72rem;color:var(--text-hint);background:none;border:none;cursor:pointer;">✏️</button>
+    </div>`).join('');
+}
+
+function generarSemana() {
+  // Mezclar con recetas de la API si hay
+  const pool = recetasAPI.length
+    ? recetasAPI.map(r => ({ emoji:'🍽️', nombre: r.titulo }))
+    : recetasSemana;
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  planSemana = Array.from({length:7}, (_,i) => shuffled[i % shuffled.length]);
+  renderSemana();
+  renderCalendario();
+  mostrarToast('🎲 ¡Semana planificada!');
+}
+
+function editarDia(idx) {
+  const nuevo = prompt(`¿Qué quieres comer el ${DIAS.slice(1).concat(DIAS[0])[idx]}?`);
+  if (nuevo) {
+    planSemana[idx] = { emoji:'🍽️', nombre: nuevo };
+    renderSemana();
+    mostrarToast('✅ Día actualizado');
+  }
+}
+
+renderCalendario();
+renderSemana();
+</script>
+</body>
+</html>

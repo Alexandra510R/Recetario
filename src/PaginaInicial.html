@@ -1,100 +1,86 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sabores Colombianos - Inicio</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Inicio</title>
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
-<header>
-  <div class="container" style="text-align:center; padding: 1.5rem 20px;">
-    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/2560px-Flag_of_Colombia.svg.png" alt="Bandera Colombia" class="flag">
-      <div>
-        <h1>Sabores Colombianos</h1>
-        <p>Recetario tradicional de Colombia</p>
-      </div>
-    </div>
-    <div class="header-auth" id="header-auth" style="margin-top:1rem;">
-      <a href="Registro.html" class="btn-login">Iniciar Sesión</a>
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html">
+    <span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span>
+  </a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html" class="active">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="SaberMas.html">👩🏼‍🍳🧑🏽‍🍳 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
       <a href="Registro.html" class="btn-registro">Registrarse</a>
     </div>
-  </div>
-</header>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
 
-<nav>
-  <div class="container">
-    <ul>
-      <li><a href="PaginaInicial.html" class="active">🏠 Inicio</a></li>
-      <li><a href="Recetas.html">🍲 Recetas</a></li>
-      <li><a href="Registro.html">📝 Registro</a></li>
-    </ul>
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </div>
 </nav>
 
-<main>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="PaginaInicial.html">🏠 Inicio</a>
+  <a href="Recetas.html">🍲 Recetas</a>
+  <a href="IaChef.html">🤖 IA Chef</a>
+  <a href="Calendario.html">📅 Calendario</a>
+  <a href="SaberMas.html">👩🏼‍🍳 Saber más</a>
+</div>
+
+<div>
   <section class="hero">
-    <h2>¡Bienvenidos a Sabores Colombianos!</h2>
-    <p>Ajiaco, Arepas, Bandeja Paisa... Explora las recetas tradicionales que hacen de Colombia un paraíso gastronómico. Descubre cómo cada región aporta su ingrediente secreto para crear una identidad culinaria única y llena de sabor.</p>
-    <div class="hero-btns">
-      <a href="Recetas.html" class="btn-hero-primary">🍲 Ver Recetas</a>
-      <a href="Registro.html" class="btn-hero-secondary">✍️ Únete a la comunidad</a>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-label">🇨🇴 Gastronomía Colombiana</div>
+        <h1>La cocina que<br/><em>une a Colombia</em></h1>
+        <p>Ajiaco, Arepas, Bandeja Paisa… Descubre, aprende y comparte las recetas más auténticas de cada región.</p>
+        <div class="hero-btns">
+          <a href="Recetas.html" class="btn-hero-primary">🍲 Ver recetas</a>
+          <a href="SaberMas.html" class="btn-hero-secondary">📖 Saber más</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge"><div class="badge-dot"></div>Nueva: Ajiaco Santafereño</div>
+        <div class="hero-img-grid">
+          <div class="hero-img-main">🍲</div>
+          <div class="hero-img-sm">🌿</div>
+          <div class="hero-img-sm">🌽</div>
+        </div>
+      </div>
     </div>
   </section>
-
-  <section class="features">
-    <div class="feature-card">
-      <div class="icon">🍽️</div>
-      <h3>Recetas Auténticas</h3>
-      <p>Platos típicos de cada rincón de Colombia con ingredientes y pasos detallados.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">🎥</div>
-      <h3>Videos Paso a Paso</h3>
-      <p>Tutoriales fáciles de seguir para preparar desde sancochos hasta buñuelos.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">❤️</div>
-      <h3>Guarda Favoritos</h3>
-      <p>Registrate y guarda tus recetas favoritas para encontrarlas fácilmente.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon">💬</div>
-      <h3>Comunidad</h3>
-      <p>Comenta, comparte y sube tus propias recetas colombianas.</p>
-    </div>
-  </section>
-
-  <section class="video-section">
-    <h2>🎵 El Sabor de Colombia</h2>
-    <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/3A7bJ_xId6Q" title="Video de YouTube"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-    </div>
-  </section>
-</main>
+</div>
 
 <footer>
-  <p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia</p>
+  <p>&copy; 2026 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p>
 </footer>
 
-<script>
-  const user = JSON.parse(localStorage.getItem('usuario'));
-  if (user) {
-    document.getElementById('header-auth').innerHTML = `
-      <span id="user-greeting">👋 Hola, ${user.nombre.split(' ')[0]}</span>
-      <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
-    `;
-  }
-  function cerrarSesion() {
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('token');
-    location.reload();
-  }
-</script>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
 
 </body>
 </html>

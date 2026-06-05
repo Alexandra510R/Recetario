@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – IA Chef</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html">
+    <span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html" class="active">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="SaberMas.html">👩🏼‍🍳🧑🏽‍🍳 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="PaginaInicial.html">🏠 Inicio</a>
+  <a href="Recetas.html">🍲 Recetas</a>
+  <a href="IaChef.html" class="active">🤖 IA Chef</a>
+  <a href="Calendario.html">📅 Calendario</a>
+</div>
+
+<main>
+
+
+
+<main>
+  <section style="background:var(--azul);padding:3.5rem 1.5rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 120%,rgba(245,166,35,0.2) 0%,transparent 65%);pointer-events:none;"></div>
+    <div class="section-label" style="margin-bottom:0.75rem;">Inteligencia Artificial</div>
+    <h2 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:0.5rem;position:relative;">🤖 IA Chef Colombiano</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:1rem;position:relative;">Ingresa los ingredientes que tienes y te sugiero recetas colombianas perfectas</p>
+  </section>
+
+  <section style="padding:4rem 0;">
+    <div class="container-narrow">
+      <div class="ai-card">
+        <div>
+          <h3 style="font-family:'Playfair Display',serif;margin-bottom:0.6rem;font-size:1.2rem;">¿Qué ingredientes tienes?</h3>
+          <textarea class="ai-textarea" id="ingredientes-input"
+            placeholder="Ej: pollo, papa, maíz, cilantro, ají..."
+            oninput="actualizarTags()"></textarea>
+          <div class="ingredient-tags" id="ingredient-tags"></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+          <div class="form-group" style="margin:0;">
+            <label>⏱ Tiempo disponible</label>
+            <select id="tiempo-sel">
+              <option value="">Cualquiera</option>
+              <option value="30">Menos de 30 min</option>
+              <option value="60">30 a 60 min</option>
+              <option value="120">1 a 2 horas</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label>📍 Región preferida</label>
+            <select id="region-sel">
+              <option value="">Cualquiera</option>
+              <option value="Andina">Andina</option>
+              <option value="Caribe">Caribe</option>
+              <option value="Pacífica">Pacífica</option>
+              <option value="Amazónica">Amazónica</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-hero-primary" style="width:100%;justify-content:center;font-size:1rem;" onclick="generarReceta()" id="btn-generar">
+          ✨ Generar receta con IA
+        </button>
+
+        <div class="ai-result" id="ai-result">
+          <div class="ai-result-title" id="ai-result-title"></div>
+          <div class="ai-result-body" id="ai-result-body"></div>
+          <div class="ai-result-actions">
+            <a href="Recetas.html" class="btn-action">Ver todas las recetas →</a>
+            <button class="btn-action" onclick="generarReceta()">🔄 Otra sugerencia</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🌽</div>
+          <h4 style="font-size:0.9rem;margin-bottom:0.3rem;">Ingredientes base</h4>
+          <p style="font-size:0.8rem;color:var(--text-muted);">Papa, maíz, yuca, plátano y arroz son los pilares de la cocina colombiana.</p>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🌿</div>
+          <h4 style="font-size:0.9rem;margin-bottom:0.3rem;">Hierbas esenciales</h4>
+          <p style="font-size:0.8rem;color:var(--text-muted);">Cilantro, guascas, cebolla larga y ají dan el sabor único colombiano.</p>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🐔</div>
+          <h4 style="font-size:0.9rem;margin-bottom:0.3rem;">Proteínas típicas</h4>
+          <p style="font-size:0.8rem;color:var(--text-muted);">Pollo, res, cerdo, frijoles y pescado son los más usados en Colombia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p></footer>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+<script>
+const recetasBase = [
+  { titulo:'Ajiaco Santafereno', ings:['pollo','papa','guascas','mazorca','cilantro','crema'], cuerpo:'Hierve el pollo 40 min. Agrega papa criolla, sabanera y pastusa. Añade guascas y cocina 20 min. Sirve con crema y alcaparras.', tiempo:'90 min', region:'Andina' },
+  { titulo:'Bandeja Paisa', ings:['frijol','arroz','chicharron','chorizo','huevo','aguacate','platano'], cuerpo:'Cocina frijoles con hogao. Frie el chicharron. Prepara arroz y huevo frito. Sirve con platano y aguacate.', tiempo:'2 horas', region:'Andina' },
+  { titulo:'Arepas de Maiz', ings:['maiz','harina','masarepa','queso','mantequilla'], cuerpo:'Mezcla harina de maiz con agua tibia y sal. Amasa y forma discos. Cocina en budare 5 min por lado.', tiempo:'20 min', region:'Todo el pais' },
+  { titulo:'Sancocho de Gallina', ings:['gallina','pollo','yuca','platano','cilantro','mazorca','name'], cuerpo:'Hierve la gallina con cebolla. Agrega yuca, platano y papa. Cocina hasta ablandar. Sirve con arroz.', tiempo:'90 min', region:'Andina' },
+  { titulo:'Cazuela de Mariscos', ings:['camaron','pescado','almeja','calamar','coco','tomate','cebolla'], cuerpo:'Sofrie cebolla y tomate. Agrega mariscos 5 min. Añade leche de coco y cocina 15 min. Sirve con arroz con coco.', tiempo:'45 min', region:'Caribe' },
+  { titulo:'Mazamorra Antioquena', ings:['maiz','panela','leche'], cuerpo:'Cocina el maiz trillado 2 horas. Endulza con panela. Sirve caliente o frio con leche.', tiempo:'2 horas', region:'Andina' },
+  { titulo:'Changua Bogotana', ings:['leche','huevo','cebolla','cilantro','pan'], cuerpo:'Hierve leche con cebolla larga. Añade huevos directamente. Tapa 3 min. Sirve con cilantro y pan.', tiempo:'15 min', region:'Andina' },
+  { titulo:'Arroz con Coco', ings:['arroz','coco','panela','pasas'], cuerpo:'Dora el coco rallado. Agrega leche de coco y panela. Añade arroz y cocina hasta absorber.', tiempo:'35 min', region:'Caribe' },
+  { titulo:'Carne Asada Llanera', ings:['carne','res','ternera','ajo','limon'], cuerpo:'Marina la carne con sal, ajo y limon 30 min. Asa a la brasa 8 min por lado. Acompaña con yuca.', tiempo:'50 min', region:'Orinoquia' },
+  { titulo:'Sopa de Lentejas', ings:['lenteja','zanahoria','papa','cebolla','tomate','cilantro'], cuerpo:'Sofrie cebolla y tomate. Agrega lentejas, zanahoria y papa. Cocina 30 min. Sazona con cilantro.', tiempo:'40 min', region:'Andina' },
+];
+
+function actualizarTags() {
+  var val = document.getElementById('ingredientes-input').value;
+  var tags = val.split(/[,\n]+/).map(function(t){ return t.trim(); }).filter(function(t){ return t.length > 1; });
+  document.getElementById('ingredient-tags').innerHTML = tags.map(function(t){
+    return '<span class="ing-tag">' + t + '</span>';
+  }).join('');
+}
+
+function mostrarResultado(titulo, cuerpo) {
+  document.getElementById('ai-result-title').textContent = titulo;
+  document.getElementById('ai-result-body').style.whiteSpace = 'pre-line';
+  document.getElementById('ai-result-body').textContent = cuerpo;
+  document.getElementById('ai-result').classList.add('visible');
+}
+
+async function generarReceta() {
+  var inputVal = document.getElementById('ingredientes-input').value.trim();
+  if (!inputVal) { mostrarToast('Ingresa al menos un ingrediente', 'error'); return; }
+
+  var btn = document.getElementById('btn-generar');
+  btn.textContent = 'Analizando...';
+  btn.disabled = true;
+
+  var ingsUsuario = inputVal.toLowerCase().split(/[,\n]+/).map(function(s){ return s.trim(); }).filter(function(s){ return s.length > 1; });
+
+  // 1. Buscar en backend
+  try {
+    var res = await fetch(API_URL + '/recetas/');
+    var recetasAPI = await res.json();
+    var estaticos = ['Ajiaco Santafereno','Bandeja Paisa','Arepas Colombianas','Ajiaco Santafereño'];
+    var comunidad = recetasAPI.filter(function(r){ return !estaticos.includes(r.titulo); });
+    var mejorAPI = null, mejorPuntajeAPI = 0;
+    for (var i = 0; i < comunidad.length; i++) {
+      var r = comunidad[i];
+      var ingsR = r.ingredientes.toLowerCase().split(',').map(function(s){ return s.trim(); });
+      var pts = 0;
+      ingsUsuario.forEach(function(u){ if (ingsR.some(function(ri){ return ri.includes(u) || u.includes(ri); })) pts++; });
+      if (pts > mejorPuntajeAPI) { mejorPuntajeAPI = pts; mejorAPI = r; }
+    }
+    if (mejorAPI && mejorPuntajeAPI > 0) {
+      mostrarResultado(mejorAPI.titulo, 'Receta de la comunidad con ' + mejorPuntajeAPI + ' ingredientes en comun.\n\nIngredientes: ' + mejorAPI.ingredientes + '\n\nPreparacion: ' + mejorAPI.pasos.substring(0,300) + '...');
+      mostrarToast('Receta encontrada en la comunidad');
+      btn.textContent = 'Generar receta con IA';
+      btn.disabled = false;
+      return;
+    }
+  } catch(e) {}
+
+  // 2. Buscar en base local
+  var puntuadas = recetasBase.map(function(r) {
+    var pts = 0;
+    ingsUsuario.forEach(function(u){ if (r.ings.some(function(ri){ return ri.includes(u) || u.includes(ri); })) pts++; });
+    return { r: r, pts: pts };
+  }).sort(function(a,b){ return b.pts - a.pts; });
+
+  if (puntuadas[0].pts > 0) {
+    var mejor = puntuadas[0].r;
+    var encontrados = mejor.ings.filter(function(i){ return ingsUsuario.some(function(u){ return i.includes(u) || u.includes(i); }); }).join(', ');
+    mostrarResultado(mejor.titulo, 'Puedes usar: ' + encontrados + '\n\n' + mejor.cuerpo + '\n\nTiempo: ' + mejor.tiempo + ' - Region ' + mejor.region);
+    mostrarToast('Receta sugerida con tus ingredientes');
+    btn.textContent = 'Generar receta con IA';
+    btn.disabled = false;
+    return;
+  }
+
+  // 3. Consultar Claude IA
+  btn.textContent = 'Consultando IA...';
+  try {
+    var prompt = 'Eres chef colombiano. El usuario tiene: ' + inputVal + '. Sugiere UNA receta colombiana. Responde: TITULO: [nombre] REGION: [region] TIEMPO: [tiempo] PASOS: [3 pasos breves]';
+    var resIA = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
+    });
+    var data = await resIA.json();
+    var texto = data.content[0].text;
+    mostrarResultado('Receta generada por IA', texto);
+    mostrarToast('Receta generada por Claude IA');
+  } catch(e) {
+    mostrarResultado('Sugerencia del Chef', 'Con ' + inputVal + ' puedes preparar un delicioso plato colombiano. Sofrie cebolla y tomate, agrega tus ingredientes con caldo y cocina a fuego lento. Sazona con cilantro y sal al gusto.');
+    mostrarToast('Sugerencia generada');
+  }
+  btn.textContent = 'Generar receta con IA';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
