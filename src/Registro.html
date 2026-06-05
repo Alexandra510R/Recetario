@@ -1,102 +1,369 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sabores Colombianos - Registro</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Registro</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .registro-page {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 64px;
+    }
+
+    /* Panel izquierdo — decorativo */
+    .registro-left {
+      background: linear-gradient(145deg, #002266 0%, #003087 50%, #004AAD 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      text-align: center;
+    }
+    .registro-left::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 20%, rgba(245,166,35,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 80%, rgba(192,57,43,0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .registro-left-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .registro-left-logo span { color: var(--amarillo); }
+    .registro-left p {
+      color: rgba(255,255,255,0.65);
+      font-size: 1rem;
+      max-width: 320px;
+      line-height: 1.6;
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .registro-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 300px;
+      position: relative;
+    }
+    .registro-benefit {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .registro-benefit-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .registro-benefit-text {
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+    }
+    .registro-flag {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    /* Panel derecho — formulario */
+    .registro-right {
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      overflow-y: auto;
+    }
+    .registro-form-wrap {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    /* Tabs */
+    .registro-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg-surface);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 1.75rem;
+      border: 1px solid var(--border);
+    }
+    .registro-tab {
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+    }
+    .registro-tab.active {
+      background: var(--azul);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,48,135,0.3);
+    }
+
+    /* Form card */
+    .registro-card {
+      display: none;
+    }
+    .registro-card.active {
+      display: block;
+    }
+    .registro-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .registro-card .subtitle {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Inputs mejorados */
+    .campo {
+      margin-bottom: 1rem;
+    }
+    .campo label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .campo input,
+    .campo select,
+    .campo textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .campo input:focus,
+    .campo select:focus,
+    .campo textarea:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(0,48,135,0.12);
+    }
+    .campo textarea { resize: vertical; min-height: 80px; }
+
+    .campos-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    /* Botones */
+    .btn-registro-submit {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--azul), #004AAD);
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-registro-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn-limpiar-registro {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-limpiar-registro:hover {
+      border-color: var(--rojo);
+      color: var(--rojo);
+    }
+
+    .link-tab {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+    .link-tab a {
+      color: var(--azul);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .registro-page { grid-template-columns: 1fr; }
+      .registro-left { display: none; }
+      .registro-right { padding: 1.5rem 1rem; align-items: flex-start; padding-top: 2rem; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="container" style="text-align:center; padding: 1.5rem 20px;">
-    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/2560px-Flag_of_Colombia.svg.png" alt="Bandera Colombia" class="flag">
-      <div>
-        <h1>Sabores Colombianos</h1>
-        <p>Recetario tradicional de Colombia</p>
-      </div>
-    </div>
-    <div class="header-auth" id="header-auth" style="margin-top:1rem;">
-      <a href="Registro.html" class="btn-login">Iniciar Sesión</a>
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html">
+    <span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span>
+  </a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="Registro.html" class="active">📝 Registro</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="SaberMas.html">👩🏼‍🍳🧑🏽‍🍳 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
       <a href="Registro.html" class="btn-registro">Registrarse</a>
     </div>
-  </div>
-</header>
-<nav>
-  <div class="container">
-    <ul>
-      <li><a href="PaginaInicial.html">🏠 Inicio</a></li>
-      <li><a href="Recetas.html">🍲 Recetas</a></li>
-      <li><a href="Registro.html" class="active">📝 Registro</a></li>
-    </ul>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </div>
 </nav>
 
-<main>
-  <div style="background: linear-gradient(135deg, var(--azul) 0%, #001a5e 100%); padding: 2.5rem 20px; text-align:center; color:white;">
-    <h2 style="font-family:'Playfair Display',serif; color:var(--amarillo); font-size:2.2rem; margin-bottom:0.5rem;">🍳 Únete a la Comunidad</h2>
-    <p style="opacity:0.9;">Regístrate para guardar favoritos, comentar y compartir tus recetas colombianas</p>
+<div class="registro-page">
+
+  <!-- Panel izquierdo -->
+  <div class="registro-left">
+    <div class="registro-flag">🇨🇴</div>
+    <div class="registro-left-logo">Sabores <span>Colombia</span></div>
+    <p>Únete a la comunidad gastronómica colombiana. Descubre, comparte y disfruta las recetas más auténticas.</p>
+    <div class="registro-benefits">
+      <div class="registro-benefit">
+        <div class="registro-benefit-icon">❤️</div>
+        <div class="registro-benefit-text">Guarda tus recetas favoritas</div>
+      </div>
+      <div class="registro-benefit">
+        <div class="registro-benefit-icon">🍳</div>
+        <div class="registro-benefit-text">Publica tus propias recetas</div>
+      </div>
+      <div class="registro-benefit">
+        <div class="registro-benefit-icon">🤖</div>
+        <div class="registro-benefit-text">Usa el generador IA Chef</div>
+      </div>
+      <div class="registro-benefit">
+        <div class="registro-benefit-icon">📅</div>
+        <div class="registro-benefit-text">Planifica tu menú semanal</div>
+      </div>
+      <div class="registro-benefit">
+        <div class="registro-benefit-icon">💬</div>
+        <div class="registro-benefit-text">Comenta y conecta con la comunidad</div>
+      </div>
+    </div>
   </div>
 
-  <div class="registro-layout">
-    <!-- Formularios con tabs -->
-    <div>
-      <div class="tabs">
-        <button class="tab-btn active" onclick="cambiarTab('login')">🔑 Iniciar Sesión</button>
-        <button class="tab-btn" onclick="cambiarTab('registro')">✍️ Registrarse</button>
+  <!-- Panel derecho -->
+  <div class="registro-right">
+    <div class="registro-form-wrap">
+
+      <div class="registro-tabs">
+        <button class="registro-tab active" onclick="cambiarTab('login')">🔑 Iniciar Sesión</button>
+        <button class="registro-tab" onclick="cambiarTab('registro')">✍️ Registrarse</button>
       </div>
 
-      <!-- TAB LOGIN -->
-      <div class="form-card tab-content active" id="tab-login">
+      <!-- LOGIN -->
+      <div class="registro-card active" id="tab-login">
         <h2>Bienvenido de vuelta</h2>
         <p class="subtitle">Ingresa con tu cuenta para continuar</p>
-
-        <div class="form-group">
-          <label>📧 Correo electrónico</label>
-          <input type="email" id="login-email" placeholder="tu@email.com">
+        <div class="campo">
+          <label>Correo electrónico</label>
+          <input type="email" id="login-email" placeholder="tu@email.com"/>
         </div>
-        <div class="form-group">
-          <label>🔒 Contraseña</label>
-          <input type="password" id="login-password" placeholder="Tu contraseña">
+        <div class="campo">
+          <label>Contraseña</label>
+          <input type="password" id="login-password" placeholder="Tu contraseña"/>
         </div>
-        <button class="btn-submit" onclick="iniciarSesion()">🚀 Iniciar Sesión</button>
+        <button class="btn-registro-submit" onclick="iniciarSesion()">🚀 Iniciar Sesión</button>
+        <p class="link-tab">¿No tienes cuenta? <a href="#" onclick="cambiarTab('registro')">Regístrate gratis →</a></p>
       </div>
 
-      <!-- TAB REGISTRO -->
-      <div class="form-card tab-content" id="tab-registro">
+      <!-- REGISTRO -->
+      <div class="registro-card" id="tab-registro">
         <h2>Crear Cuenta</h2>
-        <p class="subtitle">Completa el formulario para registrarte</p>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>👤 Nombre completo *</label>
-            <input type="text" id="reg-nombre" placeholder="Tu nombre">
+        <p class="subtitle">Completa el formulario para unirte</p>
+        <div class="campos-row">
+          <div class="campo">
+            <label>Nombre completo *</label>
+            <input type="text" id="reg-nombre" placeholder="Tu nombre"/>
           </div>
-          <div class="form-group">
-            <label>📧 Correo electrónico *</label>
-            <input type="email" id="reg-email" placeholder="tu@email.com">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>🔒 Contraseña *</label>
-            <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres">
-          </div>
-          <div class="form-group">
-            <label>📱 Teléfono</label>
-            <input type="tel" id="reg-telefono" placeholder="3001234567">
+          <div class="campo">
+            <label>Correo electrónico *</label>
+            <input type="email" id="reg-email" placeholder="tu@email.com"/>
           </div>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>🎂 Edad</label>
-            <input type="number" id="reg-edad" min="1" max="120" placeholder="Tu edad">
+        <div class="campos-row">
+          <div class="campo">
+            <label>Contraseña *</label>
+            <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres"/>
           </div>
-          <div class="form-group">
-            <label>🧑 Género</label>
+          <div class="campo">
+            <label>Teléfono</label>
+            <input type="tel" id="reg-telefono" placeholder="3001234567"/>
+          </div>
+        </div>
+        <div class="campos-row">
+          <div class="campo">
+            <label>Edad</label>
+            <input type="number" id="reg-edad" min="1" max="120" placeholder="Tu edad"/>
+          </div>
+          <div class="campo">
+            <label>Género</label>
             <select id="reg-genero">
               <option value="">Seleccione...</option>
               <option value="masculino">Masculino</option>
@@ -105,9 +372,8 @@
             </select>
           </div>
         </div>
-
-        <div class="form-group">
-          <label>🍽️ Área de interés</label>
+        <div class="campo">
+          <label>Área de interés</label>
           <select id="reg-interes">
             <option value="">Seleccione...</option>
             <option value="recetas">Recetas tradicionales</option>
@@ -116,89 +382,67 @@
             <option value="otros">Otros</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label>💬 Mensaje</label>
-          <textarea id="reg-mensaje" rows="3" placeholder="Cuéntanos algo sobre ti o tu relación con la cocina colombiana..."></textarea>
+        <div class="campo">
+          <label>Mensaje / Bio</label>
+          <textarea id="reg-mensaje" placeholder="Cuéntanos sobre tu relación con la cocina colombiana..."></textarea>
         </div>
-
-        <button class="btn-submit" onclick="registrarUsuario()">🎉 Crear Cuenta</button>
-        <button class="btn-limpiar" onclick="limpiarFormulario()">🗑️ Limpiar</button>
-      </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="subir-receta-section">
-        <h3>🍳 ¿Tienes una receta?</h3>
-        <p>Comparte tus creaciones culinarias con la comunidad colombiana.</p>
-        <a href="Recetas.html" class="btn-hero-primary" style="display:inline-block; font-size:0.9rem; padding:10px 20px;">Ver Recetas</a>
+        <button class="btn-registro-submit" onclick="registrarUsuario()">🎉 Crear Cuenta</button>
+        <button class="btn-limpiar-registro" onclick="limpiarFormulario()">Limpiar formulario</button>
+        <p class="link-tab">¿Ya tienes cuenta? <a href="#" onclick="cambiarTab('login')">Inicia sesión →</a></p>
       </div>
 
-      <h2>📋 Últimos Registros</h2>
-      <div id="listaDatos">
-        <p style="color:#888; font-size:0.9rem;">No hay registros todavía.</p>
-      </div>
-
-      <div style="margin-top:1.5rem; padding:1rem; background:#f0f4ff; border-radius:12px;">
-        <h3 style="color:var(--azul); margin-bottom:0.5rem; font-size:1rem;">🎯 Beneficios</h3>
-        <ul style="list-style:none; font-size:0.88rem; color:#555;">
-          <li style="padding:4px 0;">❤️ Guarda recetas favoritas</li>
-          <li style="padding:4px 0;">💬 Comenta en las recetas</li>
-          <li style="padding:4px 0;">🍳 Sube tus propias recetas</li>
-          <li style="padding:4px 0;">🌎 Conecta con la comunidad</li>
-        </ul>
-      </div>
     </div>
   </div>
-</main>
+</div>
 
+<footer><p>&copy; 2026 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p></footer>
 <div class="toast" id="toast"></div>
-
-<footer>
-  <p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia</p>
-</footer>
-
+<script src="script.js"></script>
 <script>
-const API_URL = "http://127.0.0.1:8000";
-
-function mostrarToast(msg, tipo = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${tipo} show`;
-  setTimeout(() => t.className = 'toast', 3500);
-}
-
 function cambiarTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'registro'));
+  document.querySelectorAll('.registro-tab').forEach((b, i) => {
+    b.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='registro'));
   });
-  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-  document.getElementById('tab-registro').classList.toggle('active', tab === 'registro');
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-registro').classList.toggle('active', tab==='registro');
 }
 
 async function iniciarSesion() {
-  const email = document.getElementById('login-email').value;
+  const email    = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
-
   if (!email || !password) return mostrarToast('Completa todos los campos', 'error');
-
   try {
-    const res = await fetch(`${API_URL}/usuarios/login`, {
+    const res  = await fetch(`${API_URL}/usuarios/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nombre: 'login', email, password })
     });
     const data = await res.json();
-
     if (res.ok) {
       localStorage.setItem('token', data.access_token);
-      // Obtener info del usuario
-      const resUsuarios = await fetch(`${API_URL}/usuarios/`);
+      if (data.usuario) {
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+      } else {
+        try {
+          const resU = await fetch(`${API_URL}/usuarios/`);
+          const usuarios = await resU.json();
+          const usuario = usuarios.find(u => u.email === email);
+          if (usuario) localStorage.setItem('usuario', JSON.stringify(usuario));
+        } catch(e) {
+          localStorage.setItem('usuario', JSON.stringify({ nombre: email.split('@')[0], email }));
+        }
+      }
       mostrarToast('¡Bienvenido! Redirigiendo...', 'success');
       setTimeout(() => window.location.href = 'PaginaInicial.html', 1500);
     } else {
-      mostrarToast('Credenciales incorrectas', 'error');
+      const msg = data.detail || 'Error al iniciar sesion';
+      if (res.status === 401) {
+        mostrarToast('Correo o contrasena incorrectos', 'error');
+      } else if (res.status === 404) {
+        mostrarToast('Esta cuenta no existe', 'error');
+      } else {
+        mostrarToast(msg, 'error');
+      }
     }
   } catch(e) {
     mostrarToast('Error conectando con el servidor', 'error');
@@ -206,17 +450,15 @@ async function iniciarSesion() {
 }
 
 async function registrarUsuario() {
-  const nombre = document.getElementById('reg-nombre').value;
-  const email = document.getElementById('reg-email').value;
+  const nombre   = document.getElementById('reg-nombre').value;
+  const email    = document.getElementById('reg-email').value;
   const password = document.getElementById('reg-password').value;
   const telefono = document.getElementById('reg-telefono').value;
-  const edad = document.getElementById('reg-edad').value;
-  const genero = document.getElementById('reg-genero').value;
-  const interes = document.getElementById('reg-interes').value;
-  const mensaje = document.getElementById('reg-mensaje').value;
-
+  const edad     = document.getElementById('reg-edad').value;
+  const genero   = document.getElementById('reg-genero').value;
+  const interes  = document.getElementById('reg-interes').value;
+  const mensaje  = document.getElementById('reg-mensaje').value;
   if (!nombre || !email || !password) return mostrarToast('Nombre, email y contraseña son obligatorios', 'error');
-
   try {
     const res = await fetch(`${API_URL}/usuarios/registro`, {
       method: 'POST',
@@ -230,14 +472,10 @@ async function registrarUsuario() {
         mensaje: mensaje || null
       })
     });
-
     const data = await res.json();
-
     if (res.ok) {
-      localStorage.setItem('usuario', JSON.stringify(data));
-      mostrarToast('¡Registro exitoso! Bienvenido a Sabores Colombianos 🎉');
+      mostrarToast('¡Registro exitoso! Bienvenido 🎉');
       limpiarFormulario();
-      actualizarListaDatos(data);
       setTimeout(() => cambiarTab('login'), 1500);
     } else {
       mostrarToast(data.detail || 'Error al registrar', 'error');
@@ -251,35 +489,6 @@ function limpiarFormulario() {
   ['reg-nombre','reg-email','reg-password','reg-telefono','reg-edad','reg-genero','reg-interes','reg-mensaje']
     .forEach(id => { document.getElementById(id).value = ''; });
 }
-
-function actualizarListaDatos(dato) {
-  const lista = document.getElementById('listaDatos');
-  const item = document.createElement('div');
-  item.className = 'dato-item';
-  item.innerHTML = `
-    <p><strong>👤 Nombre:</strong> ${dato.nombre}</p>
-    <p><strong>📧 Email:</strong> ${dato.email}</p>
-    <p><strong>🍽️ Interés:</strong> ${dato.interes || 'No especificado'}</p>
-  `;
-  lista.innerHTML = '';
-  lista.appendChild(item);
-}
-
-// Verificar sesión activa
-const usuario = JSON.parse(localStorage.getItem('usuario'));
-if (usuario) {
-  document.getElementById('header-auth').innerHTML = `
-    <span id="user-greeting">👋 Hola, ${usuario.nombre.split(' ')[0]}</span>
-    <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
-  `;
-}
-
-function cerrarSesion() {
-  localStorage.removeItem('usuario');
-  localStorage.removeItem('token');
-  location.reload();
-}
 </script>
-
 </body>
 </html>

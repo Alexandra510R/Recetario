@@ -1,19 +1,24 @@
 # 🎨 Frontend — Sabores Colombianos
 
-Documentación del frontend de la aplicación **Sabores Colombianos**, una plataforma web para explorar, compartir y aprender recetas tradicionales colombianas.
+Documentación del frontend de la aplicación **Sabores Colombianos**, desarrollado con HTML5, CSS3 y JavaScript vanilla.
 
 ---
 
-## 📁 Estructura de Archivos
+## 📁 Estructura de archivos
 
 ```
 src/
-├── PaginaInicial.html     ← Página de inicio con hero, features y video
+├── PaginaInicial.html     ← Página de inicio con hero section
 ├── Recetas.html           ← Catálogo de recetas con favoritos y comentarios
 ├── Registro.html          ← Login y registro de usuarios
-├── script.js              ← Lógica de conexión con la API
+├── Perfil.html            ← Perfil de usuario con edición de datos
+├── IaChef.html            ← Generador de recetas con IA
+├── Calendario.html        ← Planificador semanal de comidas
+├── Admin.html             ← Panel de administración
+├── SaberMas.html          ← Información sobre gastronomía colombiana
+├── script.js              ← Lógica global: auth, nav, toast, API_URL
 └── css/
-    └── style.css          ← Estilos globales con temática colombiana
+    └── style.css          ← Sistema de diseño completo con variables CSS
 ```
 
 ---
@@ -21,92 +26,128 @@ src/
 ## 🖥️ Páginas
 
 ### 🏠 PaginaInicial.html
-- Hero section con bienvenida y botones de acción
-- Cards de características (recetas, videos, favoritos, comunidad)
-- Video musical colombiano embebido
-- Header dinámico según sesión activa
+- Hero section con gradiente azul Colombia
+- Botones de acción (Ver recetas / Saber más)
+- Footer con pie de página
 
 ### 🍲 Recetas.html
-- Catálogo de 3 recetas tradicionales (Ajiaco, Bandeja Paisa, Arepas)
-- Botón de **favoritos** por receta (requiere sesión)
-- Sección de **comentarios** por receta (requiere sesión)
-- Sección de **recetas de la comunidad** cargadas desde la API
-- Modal para **subir nuevas recetas** (requiere sesión)
+- Hero con estadísticas del recetario
+- Buscador con filtros por región
+- 3 recetas clásicas estáticas con imágenes
+- Favoritos con toggle real en backend
+- Comentarios guardados en base de datos
+- Sección de recetas de la comunidad (API)
+- Modal para subir nuevas recetas
 
 ### 📝 Registro.html
-- **Tab de Login** — Inicia sesión con email y contraseña
-- **Tab de Registro** — Formulario completo con:
-  - Nombre, email, contraseña
-  - Teléfono, edad, género
-  - Área de interés y mensaje
-- Sidebar con beneficios y últimos registros
+- Diseño de pantalla dividida (panel azul + formulario)
+- Tab de Login con JWT
+- Tab de Registro con datos completos
+- Beneficios de la plataforma
+
+### 👤 Perfil.html
+- Foto de perfil con persistencia en localStorage
+- Edición de información personal (PUT /usuarios/{id})
+- Cambio de contraseña seguro (PUT /usuarios/{id}/password)
+- Mis recetas filtradas por usuario
+- Mis favoritos cargados desde backend
+- Zona de peligro (eliminar recetas / eliminar cuenta)
+
+### 🤖 IaChef.html
+- Ingreso de ingredientes disponibles
+- Búsqueda en recetas de la comunidad
+- Base local de 10 recetas colombianas con puntuación
+- Sugerencia de la receta con mayor coincidencia
+
+### 📅 Calendario.html
+- Calendario mensual navegable
+- Plan semanal con 7 días
+- Generador aleatorio de menú
+- Edición de cada día
+
+### ⚙️ Admin.html
+- Dashboard con estadísticas en tiempo real
+- Gestión de recetas (ver y eliminar)
+- Gestión de usuarios (ver y eliminar)
+- Moderación de comentarios
+- Estadísticas por región
 
 ---
 
-## 🎨 Diseño
+## 🎨 Sistema de diseño
 
-| Elemento | Valor |
-|----------|-------|
-| **Fuente principal** | Nunito |
-| **Fuente de títulos** | Playfair Display |
-| **Color primario** | `#003087` (Azul Colombia) |
-| **Color secundario** | `#CE1126` (Rojo Colombia) |
-| **Color acento** | `#F8D800` (Amarillo Colombia) |
-| **Fondo** | `#FFFDF0` (Blanco cálido) |
+| Variable | Valor | Uso |
+|----------|-------|-----|
+| `--azul` | `#003087` | Color Colombia, nav, hero |
+| `--amarillo` | `#F5A623` | Acento, botones principales |
+| `--rojo` | `#C0392B` | Alertas, danger |
+| `--bg` | `#F7F5F0` / `#1A1F2E` | Fondo claro / oscuro |
+| `--bg-card` | `#FFFFFF` / `#232A3E` | Cards |
+| `--text` | `#1A1A1A` / `#EDF0F7` | Texto principal |
+
+**Fuentes:**
+- Títulos: `Playfair Display` (serif, elegante)
+- Cuerpo: `DM Sans` (sans-serif, limpio)
+
+**Modo oscuro:** Paleta azul marino automática con `[data-theme="dark"]`
 
 ---
 
 ## 🔗 Conexión con la API
 
-El frontend se comunica con el backend FastAPI en:
+La URL del backend se define en `script.js`:
 
+```javascript
+const API_URL = 'https://recetario-backend-276307409989.us-central1.run.app';
 ```
-http://127.0.0.1:8000  ← Local
-http://3.18.225.21:8000 ← AWS EC2
-```
-
-Cambia la variable `API_URL` en `script.js` y en cada página HTML según el entorno.
 
 ---
 
-## 💾 Sesión de Usuario
-
-La sesión se maneja con `localStorage`:
+## 💾 Manejo de sesión
 
 ```javascript
-// Guardar sesión
-localStorage.setItem('usuario', JSON.stringify(data));
+// Guardar al hacer login
 localStorage.setItem('token', data.access_token);
+localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
 // Leer sesión
 const usuario = JSON.parse(localStorage.getItem('usuario'));
 
 // Cerrar sesión
-localStorage.removeItem('usuario');
 localStorage.removeItem('token');
+localStorage.removeItem('usuario');
 ```
+
+Los datos de perfil persisten en `perfil_datos` — clave permanente que sobrevive al logout y se fusiona al iniciar sesión.
 
 ---
 
-## 🚀 Cómo Ejecutar
+## 🚀 Cómo ejecutar localmente
 
-**Opción 1 — Live Server (VS Code):**
-1. Instala la extensión **Live Server**
-2. Clic derecho en `PaginaInicial.html` → **Open with Live Server**
-3. Se abre en `http://127.0.0.1:5500`
-
-**Opción 2 — Servidor Python:**
 ```bash
-python3 -m http.server 8080
-```
-Luego abre `http://127.0.0.1:8080/src/PaginaInicial.html`
+# Opción 1 — Live Server (VS Code)
+# Instalar extensión Live Server
+# Clic derecho en PaginaInicial.html → Open with Live Server
 
-> ⚠️ Asegúrate de tener el backend corriendo antes de probar funciones como login, favoritos o comentarios.
+# Opción 2 — Python
+cd src
+python3 -m http.server 8080
+# Abrir http://localhost:8080/PaginaInicial.html
+```
 
 ---
 
-## 📌 Notas
+## 🌐 URL en producción
 
-- Los botones de favoritos y comentarios requieren **sesión activa**
-- El modal de subir recetas aparece solo cuando el usuario está autenticado
-- El header muestra el nombre del usuario cuando hay sesión activa
+```
+https://recetario-frontend-276307409989.us-central1.run.app
+```
+
+---
+
+## 📱 Responsive
+
+El frontend es responsive con breakpoint en `768px`:
+- En móvil: nav colapsado en menú hamburguesa
+- Hero adaptado a una sola columna
+- Grid de recetas de 3 columnas → 1 columna

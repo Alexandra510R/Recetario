@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Saber Más</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* ══════════════════════════════════════
+       SABER MÁS — estilos específicos
+       ══════════════════════════════════════ */
+
+    /* Hero interno */
+    .sm-hero {
+      background: var(--azul);
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .sm-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 120%, rgba(245,166,35,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 10% 30%, rgba(192,57,43,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .sm-hero-label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--amarillo); background: rgba(245,166,35,0.15);
+      border: 1px solid rgba(245,166,35,0.3);
+      padding: 0.28rem 0.85rem; border-radius: 100px; margin-bottom: 1.25rem;
+    }
+    .sm-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 900; color: white;
+      line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 1.1rem; position: relative;
+    }
+    .sm-hero h1 em { font-style: italic; color: var(--amarillo); }
+    .sm-hero p {
+      font-size: 1.1rem; color: rgba(255,255,255,0.7);
+      max-width: 580px; margin: 0 auto 2.25rem; line-height: 1.75; position: relative;
+    }
+    .sm-hero-stat .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--amarillo); display: block; line-height: 1;
+    }
+    .sm-hero-stat .lbl {
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      margin-top: 0.3rem; display: block;
+    }
+
+    /* Sección funcionalidades */
+    .sm-features {
+      padding: 5.5rem 1.5rem;
+      background: var(--bg);
+    }
+    .sm-features-intro {
+      text-align: center; max-width: 580px; margin: 0 auto 3.5rem;
+    }
+    .sm-features-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: 0.75rem;
+    }
+    .sm-features-intro p { font-size: 1rem; color: var(--text-muted); line-height: 1.7; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .feat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.25rem 1.75rem;
+      position: relative; overflow: hidden;
+      transition: all 0.3s var(--ease);
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .feat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--feat-color, var(--amarillo));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s var(--ease);
+    }
+    .feat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+      border-color: transparent;
+    }
+    .feat-card:hover::before { transform: scaleX(1); }
+
+    .feat-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem;
+      background: var(--feat-bg, var(--amarillo-lt));
+    }
+    .feat-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--text);
+    }
+    .feat-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; flex: 1; }
+    .feat-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--feat-color, var(--amarillo));
+      transition: gap 0.2s;
+    }
+    .feat-card:hover .feat-link { gap: 0.55rem; }
+
+    /* Card grande (ocupa 2 columnas) */
+    .feat-card.wide { grid-column: span 2; flex-direction: row; align-items: flex-start; gap: 2rem; }
+    .feat-card.wide .feat-icon-wrap { width: 64px; height: 64px; font-size: 2.2rem; flex-shrink: 0; }
+
+    /* ── REGIONES ── */
+    .sm-regiones {
+      padding: 5.5rem 1.5rem;
+      background: var(--bg-surface);
+    }
+    .sm-regiones-intro {
+      text-align: center; max-width: 580px; margin: 0 auto 3.5rem;
+    }
+    .sm-regiones-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 0.75rem;
+    }
+    .sm-regiones-intro p { font-size: 1rem; color: var(--text-muted); line-height: 1.7; }
+
+    .regiones-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .region-card {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    }
+
+    .region-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      transition: transform 0.45s var(--ease);
+    }
+    .region-card:hover .region-bg { transform: scale(1.08); }
+
+    /* Overlay base — siempre visible abajo */
+    .region-base {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      padding: 1.4rem 1.2rem 1rem;
+      transition: opacity 0.3s;
+    }
+    .region-base h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; color: white;
+    }
+    .region-base .region-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: white; font-size: 0.72rem; font-weight: 600;
+      padding: 0.18rem 0.6rem; border-radius: 100px; margin-top: 0.3rem;
+    }
+
+    /* Overlay hover — info detallada */
+    .region-hover {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.4rem 1.2rem;
+      opacity: 0;
+      background: linear-gradient(transparent 10%, rgba(0,0,0,0.88) 55%);
+      transition: opacity 0.35s var(--ease);
+    }
+    .region-card:hover .region-hover { opacity: 1; }
+    .region-card:hover .region-base  { opacity: 0; }
+
+    .region-hover h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 0.5rem;
+    }
+    .region-hover p {
+      font-size: 0.83rem; color: rgba(255,255,255,0.82); line-height: 1.65; margin-bottom: 0.85rem;
+    }
+    .region-platos {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem;
+    }
+    .region-plato {
+      background: rgba(255,255,255,0.15);
+      color: white; font-size: 0.72rem; font-weight: 600;
+      padding: 0.2rem 0.6rem; border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+    .region-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: var(--amarillo); color: #1C1A14;
+      padding: 0.48rem 1rem; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 700;
+      transition: background 0.2s; text-decoration: none;
+      align-self: flex-start;
+    }
+    .region-btn:hover { background: #FFB830; }
+
+    /* ── VIDEO ── */
+    .sm-video {
+      padding: 5.5rem 1.5rem;
+      background: var(--azul);
+      position: relative; overflow: hidden;
+    }
+    .sm-video::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 85% 50%, rgba(192,57,43,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .sm-video-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative;
+    }
+    .sm-video-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: white; font-weight: 700; margin-bottom: 1rem; line-height: 1.2;
+    }
+    .sm-video-info h2 em { font-style: italic; color: var(--amarillo); }
+    .sm-video-info p {
+      font-size: 0.95rem; color: rgba(255,255,255,0.68);
+      line-height: 1.8; margin-bottom: 1.5rem;
+    }
+    .sm-video-facts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .sm-video-fact {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 1rem;
+    }
+    .sm-video-fact .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900; color: var(--amarillo); display: block;
+    }
+    .sm-video-fact .desc {
+      font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; display: block;
+    }
+    .video-wrapper {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 24px 72px rgba(0,0,0,0.5);
+      aspect-ratio: 16/9; position: relative;
+    }
+    .video-wrapper iframe {
+      position: absolute; top:0; left:0; width:100%; height:100%; border:none;
+    }
+
+    /* ── CTA FINAL ── */
+    .sm-cta {
+      padding: 5.5rem 1.5rem;
+      background: var(--bg);
+      text-align: center;
+    }
+    .sm-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 900; margin-bottom: 1rem;
+    }
+    .sm-cta h2 em { font-style: italic; color: var(--amarillo); }
+    .sm-cta p { font-size: 1rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 2.25rem; line-height: 1.7; }
+    .sm-cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .feat-card.wide { grid-column: span 2; }
+      .regiones-grid  { grid-template-columns: 1fr 1fr; }
+      .sm-video-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .feat-card.wide { grid-column: span 1; flex-direction: column; }
+      .regiones-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html"><span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span></a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="SaberMas.html" class="active">📖 Saber más</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="sm-hero">
+    <div class="sm-hero-label">📖 Conoce la plataforma</div>
+    <h1>Todo sobre<br/><em>Sabores Colombianos</em></h1>
+    <p>La plataforma más completa para descubrir, aprender y compartir la gastronomía colombiana. Conoce todo lo que puedes hacer aquí.</p>
+    </div>
+  </section>
+
+  <!-- ═══ FUNCIONALIDADES ═══ -->
+  <section class="sm-features">
+    <div class="sm-features-intro">
+      <div class="section-label">¿Qué puedes hacer?</div>
+      <h2>Todo lo que necesitas</h2>
+      <p>Desde explorar recetas tradicionales hasta planificar tu menú semanal con ayuda de inteligencia artificial.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <!-- Card ancha — Recetas -->
+      <div class="feat-card wide" style="--feat-color:var(--amarillo);--feat-bg:var(--amarillo-lt);">
+        <div class="feat-icon-wrap">🍽️</div>
+        <div>
+          <h3>Recetas auténticas colombianas</h3>
+          <p>Accede a más de 1,240 recetas verificadas, organizadas por región, categoría, dificultad y tiempo de preparación. Cada receta incluye ingredientes con cantidades exactas, pasos detallados, video explicativo y comentarios de la comunidad. También puedes publicar tus propias creaciones y compartirlas con miles de personas.</p>
+          <a href="Recetas.html" class="feat-link">Explorar recetas →</a>
+        </div>
+      </div>
+
+      <!-- Videos -->
+      <div class="feat-card" style="--feat-color:#E74C3C;--feat-bg:#FDECEA;">
+        <div class="feat-icon-wrap">🎥</div>
+        <h3>Videos paso a paso</h3>
+        <p>Cada receta puede incluir un video explicativo integrado directamente en la plataforma. Puedes enlazar videos de YouTube o subir tus propios archivos de video para que la comunidad aprenda de ti.</p>
+        <a href="Recetas.html" class="feat-link">Ver recetas con video →</a>
+      </div>
+
+      <!-- IA Chef -->
+      <div class="feat-card" style="--feat-color:#8E44AD;--feat-bg:#F5EEF8;">
+        <div class="feat-icon-wrap">🤖</div>
+        <h3>IA Chef — Generador de recetas</h3>
+        <p>Ingresa los ingredientes que tienes en casa y nuestra inteligencia artificial te sugiere recetas colombianas que puedes preparar ahora mismo. También considera tu tiempo disponible y la región que prefieras.</p>
+        <a href="IaChef.html" class="feat-link">Probar IA Chef →</a>
+      </div>
+
+      <!-- Favoritos -->
+      <div class="feat-card" style="--feat-color:var(--rojo);--feat-bg:var(--rojo-lt);">
+        <div class="feat-icon-wrap">❤️</div>
+        <h3>Guarda tus favoritos</h3>
+        <p>Marca cualquier receta como favorita y accédela rápidamente desde tu perfil. Crea colecciones personalizadas como "Recetas de fin de semana" o "Mis postres favoritos".</p>
+        <a href="Registro.html" class="feat-link">Crear cuenta gratis →</a>
+      </div>
+
+      <!-- Calendario -->
+      <div class="feat-card" style="--feat-color:var(--verde);--feat-bg:var(--verde-lt);">
+        <div class="feat-icon-wrap">📅</div>
+        <h3>Calendario de comidas</h3>
+        <p>Planifica tu menú para toda la semana arrastrando recetas a cada día. El sistema genera automáticamente la lista de compras con todos los ingredientes que necesitas.</p>
+        <a href="Calendario.html" class="feat-link">Planificar semana →</a>
+      </div>
+
+      <!-- Comunidad -->
+      <div class="feat-card" style="--feat-color:#2980B9;--feat-bg:#EBF5FB;">
+        <div class="feat-icon-wrap">💬</div>
+        <h3>Comunidad activa</h3>
+        <p>Comenta en las recetas, comparte tus trucos, valora los platos que has preparado y sube tus propias creaciones. Cada receta es una conversación entre apasionados de la cocina colombiana.</p>
+        <a href="Recetas.html" class="feat-link">Ver comentarios →</a>
+      </div>
+
+      <!-- Perfil -->
+      <div class="feat-card" style="--feat-color:#E67E22;--feat-bg:#FEF5E7;">
+        <div class="feat-icon-wrap">👤</div>
+        <h3>Tu perfil personalizado</h3>
+        <p>Gestiona tu información personal, cambia tu foto de perfil, actualiza tu correo y contraseña. Desde tu perfil también puedes ver el historial de todas las recetas que has publicado.</p>
+        <a href="Perfil.html" class="feat-link">Ir a mi perfil →</a>
+      </div>
+
+      <!-- Card ancha — Admin -->
+      <div class="feat-card wide" style="--feat-color:var(--azul);--feat-bg:#EAF0FB;">
+        <div class="feat-icon-wrap">⚙️</div>
+        <div>
+          <h3>Panel de administración</h3>
+          <p>Los administradores tienen acceso a un panel completo con estadísticas en tiempo real, aprobación de recetas enviadas por la comunidad, gestión de usuarios y moderación de comentarios. Todo el contenido de la plataforma se puede controlar desde un solo lugar, garantizando la calidad y autenticidad de las recetas publicadas.</p>
+          <a href="Admin.html" class="feat-link">Ver panel admin →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ REGIONES ═══ -->
+  <section class="sm-regiones">
+    <div class="sm-regiones-intro">
+      <div class="section-label">🗺️ Geografía y sabor</div>
+      <h2>Las 6 regiones de Colombia</h2>
+      <p>Cada región tiene sus propios ingredientes, técnicas y tradiciones culinarias únicas. Pasa el cursor sobre cada una para descubrirlas.</p>
+    </div>
+
+    <div class="regiones-grid">
+
+      <!-- Andina -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#5D4037,#8D6E63);">⛰️</div>
+        <div class="region-base">
+          <h3>Región Andina</h3>
+          <span class="region-tag">Bogotá · Antioquia · Eje Cafetero</span>
+        </div>
+        <div class="region-hover">
+          <h3>⛰️ Región Andina</h3>
+          <p>Centro económico y cultural del país; concentra gran parte de la población y las principales ciudades, sus platos tradicionales son de clima frío...</p>
+          <div class="region-platos">
+            <span class="region-plato">🍲 sopas</span>
+            <span class="region-plato">🥔 tubérculos</span>
+            <span class="region-plato">🌽 maíz</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas andinas →</a>
+        </div>
+      </div>
+
+      <!-- Caribe -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#0277BD,#29B6F6);">🌊</div>
+        <div class="region-base">
+          <h3>Región Caribe</h3>
+          <span class="region-tag">Barranquilla · Cartagena · Santa Marta</span>
+        </div>
+        <div class="region-hover">
+          <h3>🌊 Región Caribe</h3>
+          <p>Destaca por sus playas, su riqueza cultural y sus tradiciones musicales, sus platos tradicionales se destacan en sabores tropicales</p>
+          <div class="region-platos">
+            <span class="region-plato">🍚 Arroz con coco</span>
+            <span class="region-plato">🦐 Ceviche</span>
+            <span class="region-plato">🐟 Cazuela</span>
+            <span class="region-plato">🍢 Mote de queso</span>
+            <span class="region-plato">🥥 Cocada</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas caribeñas →</a>
+        </div>
+      </div>
+
+      <!-- Pacífica -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#1B5E20,#43A047);">🌿</div>
+        <div class="region-base">
+          <h3>Región Pacífica</h3>
+          <span class="region-tag">Chocó · Valle del Cauca · Nariño</span>
+        </div>
+        <div class="region-hover">
+          <h3>🌿 Región Pacífica</h3>
+          <p>Reconocida por su gran biodiversidad y su herencia afrocolombiana</p>
+          <div class="region-platos">
+            <span class="region-plato">🐟 Encocado</span>
+            <span class="region-plato">🫓 Pandebono</span>
+            <span class="region-plato">🌴 Chontaduro</span>
+            <span class="region-plato">🍲 Sancocho</span>
+            <span class="region-plato">🦀 Jaiba</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas pacíficas →</a>
+        </div>
+      </div>
+
+      <!-- Amazónica -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#2E7D32,#81C784);">🦜</div>
+        <div class="region-base">
+          <h3>Región Amazónica</h3>
+          <span class="region-tag">Amazonas · Putumayo · Vaupés</span>
+        </div>
+        <div class="region-hover">
+          <h3>🦜 Región Amazónica</h3>
+          <p>Sobresale por su extensa selva tropical y su diversidad de pueblos indígenas</p>
+          <div class="region-platos">
+            <span class="region-plato">🐟 Pirarucú</span>
+            <span class="region-plato">🌿 Casabe</span>
+            <span class="region-plato">🫐 Asaí</span>
+            <span class="region-plato">🍲 Tacacho</span>
+            <span class="region-plato">🐊 Caldo</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas amazónicas →</a>
+        </div>
+      </div>
+
+      <!-- Orinoquía -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#E65100,#FF8F00);">🌅</div>
+        <div class="region-base">
+          <h3>Región Orinoquía</h3>
+          <span class="region-tag">Meta · Casanare · Arauca</span>
+        </div>
+        <div class="region-hover">
+          <h3>🌅 Región Orinoquía</h3>
+          <p>Caracterizada por sus amplias llanuras y la cultura llanera. Destaca la carne a la llanera, el pescado de río y productos ganaderos</p>
+          <div class="region-platos">
+            <span class="region-plato">🥩 Mamona</span>
+            <span class="region-plato">🐟 Cachama</span>
+            <span class="region-plato">🌽 Hayaca</span>
+            <span class="region-plato">🍖 Pisillo</span>
+            <span class="region-plato">🥣 Hervido</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas llaneras →</a>
+        </div>
+      </div>
+
+      <!-- Insular -->
+      <div class="region-card">
+        <div class="region-bg" style="background:linear-gradient(135deg,#00695C,#26C6DA);">🏝️</div>
+        <div class="region-base">
+          <h3>Región Insular</h3>
+          <span class="region-tag">San Andrés · Providencia · Santa Catalina</span>
+        </div>
+        <div class="region-hover">
+          <h3>🏝️ Región Insular</h3>
+          <p>Fusión de sabores caribeños con pescados, mariscos y coco. Destaca por sus ecosistemas marinos, arrecifes y atractivo turístico.</p>
+          <div class="region-platos">
+            <span class="region-plato">🦀 Rondón</span>
+            <span class="region-plato">🦞 Langosta</span>
+            <span class="region-plato">🥥 Pan de coco</span>
+            <span class="region-plato">🐚 Cangrejo</span>
+            <span class="region-plato">🍚 Rice & Beans</span>
+          </div>
+          <a href="Recetas.html" class="region-btn">Ver recetas insulares →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ VIDEO ═══ -->
+  <section class="sm-video">
+    <div class="sm-video-inner">
+      <div class="sm-video-info">
+        <div class="section-label" style="color:var(--amarillo);background:rgba(245,166,35,0.15);">🎬 Documental</div>
+        <h2>La riqueza culinaria de <em>Colombia</em></h2>
+        <p>Colombia es uno de los países con mayor biodiversidad del mundo, y eso se refleja completamente en su gastronomía. Desde las sopas bogotanas hasta los mariscos del Caribe, cada plato cuenta una historia de territorio, cultura e identidad.</p>
+        <div class="sm-video-facts">
+          <div class="sm-video-fact">
+            <span class="num">300+</span>
+            <span class="desc">Ingredientes nativos únicos</span>
+          </div>
+          <div class="sm-video-fact">
+            <span class="num">6</span>
+            <span class="desc">Regiones gastronómicas</span>
+          </div>
+          <div class="sm-video-fact">
+            <span class="num">1,240</span>
+            <span class="desc">Recetas catalogadas</span>
+          </div>
+          <div class="sm-video-fact">
+            <span class="num">18K+</span>
+            <span class="desc">Usuarios en la comunidad</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/3A7bJ_xId6Q"
+            title="Colombia, sabores que enamoran"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;text-align:center;margin-top:0.75rem;">
+          Colombia, sabores que enamoran — Documental gastronómico
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA FINAL ═══ -->
+  <section class="sm-cta">
+    <div class="section-label">¿Listo para empezar?</div>
+    <h2>Únete a la comunidad<br/><em>gastronómica</em> colombiana</h2>
+    <p>Regístrate gratis y empieza a explorar, guardar y compartir las recetas más auténticas de Colombia.</p>
+    <div class="sm-cta-btns">
+      <a href="Registro.html" class="btn-hero-primary">✍️ Crear cuenta gratis</a>
+      <a href="Recetas.html" class="btn-hero-secondary" style="border-color:var(--border-md);color:var(--text);">🍲 Explorar recetas</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

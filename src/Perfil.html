@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabores Colombianos – Mi Perfil</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* ── PERFIL ESPECÍFICO ── */
+    .perfil-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 1.5rem 4rem;
+      align-items: start;
+    }
+
+    /* Sidebar perfil */
+    .perfil-sidebar {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .perfil-card {
+      background: var(--b-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .perfil-cover {
+      height: 80px;
+      background: linear-gradient(135deg, var(--azul) 0%, var(--rojo) 100%);
+    }
+
+    .perfil-avatar-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 1.5rem 1.5rem;
+      margin-top: -42px;
+      text-align: center;
+    }
+
+    .perfil-avatar {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: var(--amarillo);
+      border: 4px solid var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 900; color: #191c14;
+      position: relative; cursor: pointer;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .perfil-avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .avatar-overlay {
+      position: absolute; inset: 0;
+      background: rgba(202, 13, 13, 0.45);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+      border-radius: 50%;
+      font-size: 1.4rem;
+    }
+    .perfil-avatar:hover .avatar-overlay { opacity: 1; }
+
+    .perfil-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      margin-top: 0.75rem; color: var(--text);
+    }
+    .perfil-email {
+      font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;
+    }
+    .perfil-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--verde-lt); color: var(--verde);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 0.22rem 0.65rem; border-radius: 100px;
+      margin-top: 0.6rem;
+    }
+
+    /* Nav lateral */
+    .perfil-nav { display: flex; flex-direction: column; }
+    .perfil-nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.72rem 1.25rem;
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--text-muted); cursor: pointer;
+      transition: all 0.2s;
+      border-left: 2.5px solid transparent;
+    }
+    .perfil-nav-item:hover { background: var(--bg-surface); color: var(--text); }
+    .perfil-nav-item.active {
+      color: var(--azul); background: var(--amarillo-lt);
+      border-left-color: var(--amarillo);
+    }
+    .perfil-nav-divider { height: 1px; background: var(--border); margin: 0.3rem 0; }
+
+    /* Estadísticas */
+    .perfil-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem; padding: 1.25rem;
+    }
+    .perfil-stat {
+      background: var(--bg-surface); border-radius: var(--radius);
+      padding: 0.85rem; text-align: center;
+    }
+    .perfil-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900; color: var(--text); display: block;
+    }
+    .perfil-stat-lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* Paneles contenido */
+    .perfil-panel { display: none; }
+    .perfil-panel.active { display: block; }
+
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .panel-card-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--text);
+    }
+    .panel-card-header p {
+      font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;
+    }
+    .panel-card-body { padding: 1.5rem; }
+
+    /* Avatar upload */
+    .avatar-upload-area {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 1.25rem;
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+    }
+    .avatar-grande {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--amarillo);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 900; color: #1C1A14;
+      flex-shrink: 0; overflow: hidden;
+      border: 3px solid var(--border);
+    }
+    .avatar-grande img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .avatar-upload-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .avatar-upload-info p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+    .avatar-upload-btns { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+
+    .btn-upload {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.45rem 1rem; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600;
+      background: var(--azul); color: white;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-upload:hover { background: var(--rojo); }
+    .btn-remove {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.45rem 1rem; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600;
+      border: 1.5px solid var(--border-md);
+      color: var(--rojo); cursor: pointer; transition: all 0.2s;
+    }
+    .btn-remove:hover { background: var(--rojo-lt); }
+
+    /* Input file oculto */
+    #input-foto { display: none; }
+
+    /* Campo con icono de estado */
+    .input-group { position: relative; }
+    .input-status {
+      position: absolute; right: 0.85rem; top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+    }
+
+    /* Barra de fortaleza contraseña */
+    .password-strength { margin-top: 0.5rem; }
+    .strength-bar {
+      height: 4px; border-radius: 100px;
+      background: var(--bg-surface);
+      overflow: hidden; margin-bottom: 0.3rem;
+    }
+    .strength-fill {
+      height: 100%; border-radius: 100px;
+      transition: width 0.4s, background 0.4s;
+      width: 0%;
+    }
+    .strength-label { font-size: 0.75rem; color: var(--text-hint); }
+
+    /* Recetas del usuario */
+    .mis-recetas-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+      gap: 1rem;
+    }
+    .mini-receta-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: flex; align-items: center; gap: 0.85rem;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .mini-receta-card:hover { box-shadow: var(--shadow); border-color: var(--amarillo); }
+    .mini-receta-emoji { font-size: 2rem; flex-shrink: 0; }
+    .mini-receta-info h4 { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .mini-receta-info p  { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+    /* Peligro */
+    .zona-peligro {
+      border: 1.5px solid var(--rojo);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .zona-peligro .panel-card-header { background: var(--rojo-lt); }
+    .zona-peligro .panel-card-header h3 { color: var(--rojo); }
+
+    @media (max-width: 768px) {
+      .perfil-layout { grid-template-columns: 1fr; }
+      .avatar-upload-area { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <a class="nav-logo" href="PaginaInicial.html"><span class="flag-emoji">🇨🇴</span> Sabores<span>Colombia</span></a>
+  <div class="nav-links">
+    <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="Admin.html">⚙️ Admin</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">🌙</button>
+    <div id="nav-pre-login" style="display:flex;gap:0.5rem;">
+      <a href="Registro.html" class="btn-login">Iniciar sesión</a>
+      <a href="Registro.html" class="btn-registro">Registrarse</a>
+    </div>
+    <div id="nav-post-login" class="hidden" style="position:relative;">
+      <div class="profile-btn" onclick="toggleDropdown()">
+        <div class="profile-avatar-sm" id="profile-avatar">U</div>
+        <span class="profile-btn-name" id="profile-name">Usuario</span>
+        <span style="font-size:0.7rem;color:var(--text-hint);">▾</span>
+      </div>
+      <div class="dropdown" id="profile-dropdown">
+        <div class="dropdown-item" onclick="window.location.href='Perfil.html'">👤 Mi perfil</div>
+
+        <div class="dropdown-item" onclick="window.location.href='Admin.html'">⚙️ Panel admin</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" onclick="cerrarSesion()">→ Cerrar sesión</div>
+      </div>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="PaginaInicial.html">🏠 Inicio</a>
+    <a href="Recetas.html">🍲 Recetas</a>
+    <a href="IaChef.html">🤖 IA Chef</a>
+    <a href="Calendario.html">📅 Calendario</a>
+    <a href="Admin.html">⚙️ Admin</a>
+</div>
+
+<main>
+
+  <!-- Banner -->
+  <div style="background:var(--azul);padding:3rem 1.5rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 100% at 10% 50%,rgba(245,166,35,0.18) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;position:relative;">
+      <div id="banner-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--amarillo);border:3px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:900;color:#1C1A14;overflow:hidden;flex-shrink:0;"></div>
+      <div>
+        <h2 style="font-family:'Playfair Display',serif;color:white;font-size:1.8rem;font-weight:900;" id="banner-nombre">Mi Perfil</h2>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;" id="banner-email"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-layout">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <div class="perfil-sidebar">
+
+      <!-- Card avatar -->
+      <div class="perfil-card">
+        <div class="perfil-cover"></div>
+        <div class="perfil-avatar-wrap">
+          <div class="perfil-avatar" onclick="document.getElementById('input-foto').click()" title="Cambiar foto">
+            <span id="sidebar-inicial">U</span>
+            <img id="sidebar-foto" src="" alt="" style="display:none;"/>
+            <div class="avatar-overlay">📷</div>
+          </div>
+          <div class="perfil-nombre" id="sidebar-nombre">Cargando...</div>
+          <div class="perfil-email" id="sidebar-email"></div>
+          <div class="perfil-badge">✅ Miembro activo</div>
+        </div>
+        <!-- Estadísticas rápidas -->
+        <div class="perfil-stats">
+          <div class="perfil-stat">
+            <span class="perfil-stat-num" id="stat-recetas">—</span>
+            <span class="perfil-stat-lbl">Recetas</span>
+          </div>
+          <div class="perfil-stat">
+            <span class="perfil-stat-num" id="stat-favoritos">—</span>
+            <span class="perfil-stat-lbl">Favoritos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegación -->
+      <div class="perfil-card">
+        <div class="perfil-nav">
+          <div class="perfil-nav-item active" onclick="irPanel('info',this)">👤 Información personal</div>
+          <div class="perfil-nav-item" onclick="irPanel('foto',this)">📷 Foto de perfil</div>
+          <div class="perfil-nav-item" onclick="irPanel('seguridad',this)">🔒 Seguridad</div>
+          <div class="perfil-nav-item" onclick="irPanel('recetas',this)">🍲 Mis recetas</div>
+          <div class="perfil-nav-divider"></div>
+          <div class="perfil-nav-item" style="color:var(--rojo);" onclick="irPanel('peligro',this)">⚠️ Zona de peligro</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ PANELES ═══ -->
+    <div>
+
+      <!-- PANEL: Información personal -->
+      <div class="perfil-panel active" id="panel-info">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h3>👤 Información personal</h3>
+              <p>Actualiza tu nombre, correo y datos de perfil</p>
+            </div>
+          </div>
+          <div class="panel-card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre completo</label>
+                <input type="text" id="edit-nombre" placeholder="Tu nombre completo"/>
+              </div>
+              <div class="form-group">
+                <label>Correo electrónico</label>
+                <div class="input-group">
+                  <input type="email" id="edit-email" placeholder="tu@email.com"/>
+                  <span class="input-status" id="email-status"></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="tel" id="edit-telefono" placeholder="3001234567"/>
+              </div>
+              <div class="form-group">
+                <label>Edad</label>
+                <input type="number" id="edit-edad" min="1" max="120" placeholder="Tu edad"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Género</label>
+                <select id="edit-genero">
+                  <option value="">Seleccione...</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="femenino">Femenino</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Área de interés</label>
+                <select id="edit-interes">
+                  <option value="">Seleccione...</option>
+                  <option value="recetas">Recetas tradicionales</option>
+                  <option value="cursos">Cursos de cocina</option>
+                  <option value="eventos">Eventos gastronómicos</option>
+                  <option value="otros">Otros</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Mensaje / Bio</label>
+              <textarea id="edit-mensaje" rows="3" placeholder="Cuéntanos algo sobre ti..."></textarea>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.5rem;">
+              <button class="btn-submit" style="max-width:220px;" onclick="guardarInfo()">💾 Guardar cambios</button>
+              <button class="btn-limpiar" style="max-width:160px;" onclick="cargarDatosUsuario()">↩ Descartar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: Foto de perfil -->
+      <div class="perfil-panel" id="panel-foto">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h3>📷 Foto de perfil</h3>
+              <p>Sube una imagen o elige un avatar</p>
+            </div>
+          </div>
+          <div class="panel-card-body">
+
+            <!-- Upload -->
+            <div class="avatar-upload-area">
+              <div class="avatar-grande" id="preview-avatar">
+                <span id="preview-inicial">U</span>
+                <img id="preview-foto" src="" alt="" style="display:none;"/>
+              </div>
+              <div class="avatar-upload-info">
+                <h4>Foto de perfil</h4>
+                <p>JPG, PNG o GIF. Máximo 2MB.<br/>Recomendado: 200×200 px o más.</p>
+                <div class="avatar-upload-btns">
+                  <label for="input-foto" class="btn-upload">📁 Subir foto</label>
+                  <button class="btn-remove" onclick="eliminarFoto()">🗑️ Eliminar foto</button>
+                </div>
+              </div>
+            </div>
+            <input type="file" id="input-foto" accept="image/*" onchange="previsualizarFoto(event)"/>
+
+            <!-- Avatares predefinidos -->
+            <div style="margin-top:1.5rem;">
+              <p style="font-size:0.85rem;font-weight:600;color:var(--text-muted);margin-bottom:0.85rem;">O elige un avatar:</p>
+              <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                <div class="avatar-opcion" onclick="elegirAvatar('👨‍🍳')">👨‍🍳</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('👩‍🍳')">👩‍🍳</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🧑‍🍳')">🧑‍🍳</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🍲')">🍲</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🇨🇴')">🇨🇴</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🌿')">🌿</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🌽')">🌽</div>
+                <div class="avatar-opcion" onclick="elegirAvatar('🫓')">🫓</div>
+              </div>
+            </div>
+
+            <button class="btn-submit" style="max-width:220px;margin-top:1.5rem;" onclick="guardarFoto()">💾 Guardar foto</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: Seguridad -->
+      <div class="perfil-panel" id="panel-seguridad">
+
+        <!-- Cambiar contraseña -->
+        <div class="panel-card" style="margin-bottom:1.25rem;">
+          <div class="panel-card-header">
+            <div>
+              <h3>🔒 Cambiar contraseña</h3>
+              <p>Usa una contraseña segura de al menos 8 caracteres</p>
+            </div>
+          </div>
+          <div class="panel-card-body">
+            <div class="form-group">
+              <label>Contraseña actual</label>
+              <input type="password" id="pass-actual" placeholder="Tu contraseña actual"/>
+            </div>
+            <div class="form-group">
+              <label>Nueva contraseña</label>
+              <input type="password" id="pass-nueva" placeholder="Mínimo 8 caracteres" oninput="medirFortaleza(this.value)"/>
+              <div class="password-strength">
+                <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                <span class="strength-label" id="strength-label">Ingresa una contraseña</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Confirmar nueva contraseña</label>
+              <div class="input-group">
+                <input type="password" id="pass-confirmar" placeholder="Repite la contraseña" oninput="verificarCoincidencia()"/>
+                <span class="input-status" id="pass-status"></span>
+              </div>
+            </div>
+            <button class="btn-submit" style="max-width:240px;" onclick="cambiarPassword()">🔑 Actualizar contraseña</button>
+          </div>
+        </div>
+
+        <!-- Sesiones -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h3>📱 Sesión activa</h3>
+              <p>Información de tu sesión actual</p>
+            </div>
+          </div>
+          <div class="panel-card-body">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.85rem;background:var(--verde-lt);border:1px solid rgba(26,107,60,0.2);border-radius:var(--radius);">
+              <div style="display:flex;align-items:center;gap:0.85rem;">
+                <span style="font-size:1.5rem;">💻</span>
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">Sesión actual</div>
+                  <div style="font-size:0.775rem;color:var(--text-muted);">Navegador web · Ahora</div>
+                </div>
+              </div>
+              <span style="font-size:0.75rem;color:var(--verde);font-weight:700;">● Activa</span>
+            </div>
+            <button class="btn-limpiar" style="margin-top:1rem;" onclick="cerrarSesion()">🚪 Cerrar sesión en todos los dispositivos</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PANEL: Mis recetas -->
+      <div class="perfil-panel" id="panel-recetas">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h3>🍲 Mis recetas publicadas</h3>
+              <p>Recetas que has subido a la comunidad</p>
+            </div>
+            <a href="Recetas.html" class="btn-upload" style="font-size:0.8rem;">+ Nueva receta</a>
+          </div>
+          <div class="panel-card-body">
+            <div class="mis-recetas-grid" id="mis-recetas-grid">
+              <p style="color:var(--text-hint);font-size:0.875rem;grid-column:1/-1;">Cargando tus recetas...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: Zona de peligro -->
+      <div class="perfil-panel" id="panel-peligro">
+        <div class="zona-peligro">
+          <div class="panel-card-header">
+            <div>
+              <h3>⚠️ Zona de peligro</h3>
+              <p style="color:var(--rojo);">Estas acciones son irreversibles</p>
+            </div>
+          </div>
+          <div class="panel-card-body" style="display:flex;flex-direction:column;gap:1rem;">
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem;background:var(--bg-surface);border-radius:var(--radius);flex-wrap:wrap;gap:1rem;">
+              <div>
+                <div style="font-weight:700;font-size:0.9rem;">Borrar todas mis recetas</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Elimina permanentemente todas las recetas que has publicado.</div>
+              </div>
+              <button onclick="confirmarAccion('¿Seguro que quieres eliminar TODAS tus recetas? Esta acción no se puede deshacer.', borrarRecetas)"
+                style="padding:0.55rem 1.1rem;border-radius:9px;border:1.5px solid var(--rojo);color:var(--rojo);font-weight:700;font-size:0.83rem;cursor:pointer;transition:all 0.2s;white-space:nowrap;"
+                onmouseover="this.style.background='var(--rojo-lt)'" onmouseout="this.style.background=''">
+                🗑️ Borrar recetas
+              </button>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem;background:var(--rojo-lt);border:1px solid rgba(192,57,43,0.2);border-radius:var(--radius);flex-wrap:wrap;gap:1rem;">
+              <div>
+                <div style="font-weight:700;font-size:0.9rem;color:var(--rojo);">Eliminar mi cuenta</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Elimina tu cuenta y todos tus datos de forma permanente.</div>
+              </div>
+              <button onclick="confirmarAccion('¿Seguro que quieres eliminar tu cuenta? Perderás todos tus datos.', eliminarCuenta)"
+                style="padding:0.55rem 1.1rem;border-radius:9px;background:var(--rojo);color:white;font-weight:700;font-size:0.83rem;cursor:pointer;transition:all 0.2s;white-space:nowrap;border:none;"
+                onmouseover="this.style.background='#9B2217'" onmouseout="this.style.background='var(--rojo)'">
+                ❌ Eliminar cuenta
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /paneles -->
+  </div><!-- /layout -->
+</main>
+
+<footer><p>&copy; 2025 <span>Sabores Colombianos</span> — Hecho con ❤️ desde Colombia 🇨🇴</p></footer>
+<div class="toast" id="toast"></div>
+
+<!-- Estilos extra para avatares opciones -->
+<style>
+.avatar-opcion {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; cursor: pointer;
+  transition: all 0.2s;
+}
+.avatar-opcion:hover { border-color: var(--amarillo); transform: scale(1.12); box-shadow: var(--shadow); }
+.avatar-opcion.selected { border-color: var(--amarillo); background: var(--amarillo-lt); }
+</style>
+
+<script src="script.js"></script>
+<script>
+let usuarioActual = null;
+let fotoSeleccionada = null; // base64 o emoji
+
+/* ── CARGAR DATOS ── */
+function cargarDatosUsuario() {
+  usuarioActual = getUsuario();
+  if (!usuarioActual) {
+    mostrarToast('Debes iniciar sesión para ver tu perfil', 'error');
+    setTimeout(() => window.location.href = 'Registro.html', 1500);
+    return;
+  }
+
+  fusionarDatosPerfil(); // recuperar datos guardados aunque se haya cerrado sesión
+  const nombre  = usuarioActual.nombre  || '';
+  const email   = usuarioActual.email   || '';
+  const inicial = nombre ? nombre[0].toUpperCase() : 'U';
+  const foto    = localStorage.getItem('perfil_foto');
+
+  // Banner
+  document.getElementById('banner-nombre').textContent = nombre;
+  document.getElementById('banner-email').textContent  = email;
+  const bannerAvatar = document.getElementById('banner-avatar');
+  bannerAvatar.textContent = foto ? '' : inicial;
+  if (foto && foto.length < 10) { bannerAvatar.textContent = foto; }
+  else if (foto) { bannerAvatar.innerHTML = `<img src="${foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`; }
+
+  // Sidebar
+  document.getElementById('sidebar-nombre').textContent = nombre;
+  document.getElementById('sidebar-email').textContent  = email;
+  actualizarAvatarSidebar(foto, inicial);
+
+  // Formulario info
+  document.getElementById('edit-nombre').value   = nombre;
+  document.getElementById('edit-email').value    = email;
+  document.getElementById('edit-telefono').value = usuarioActual.telefono || '';
+  document.getElementById('edit-edad').value     = usuarioActual.edad     || '';
+  document.getElementById('edit-genero').value   = usuarioActual.genero   || '';
+  document.getElementById('edit-interes').value  = usuarioActual.interes  || '';
+  document.getElementById('edit-mensaje').value  = usuarioActual.mensaje  || '';
+
+  // Preview foto
+  document.getElementById('preview-inicial').textContent = inicial;
+  if (foto) actualizarPreviewFoto(foto);
+
+  cargarMisRecetas();
+  cargarStats();
+  toggleFavorito();
+}
+
+function actualizarAvatarSidebar(foto, inicial) {
+  const inicialEl = document.getElementById('sidebar-inicial');
+  const fotoEl    = document.getElementById('sidebar-foto');
+  if (foto && foto.length < 10) {
+    inicialEl.textContent = foto; inicialEl.style.display = '';
+    fotoEl.style.display = 'none';
+  } else if (foto) {
+    fotoEl.src = foto; fotoEl.style.display = '';
+    inicialEl.style.display = 'none';
+  } else {
+    inicialEl.textContent = inicial; inicialEl.style.display = '';
+    fotoEl.style.display = 'none';
+  }
+}
+
+/* ── STATS ── */
+async function cargarStats() {
+  try {
+    const res = await fetch(`${API_URL}/recetas/${ usuarioActual && usuarioActual.id ? '?usuario_id=' + usuarioActual.id : '' }`);
+    const recetas = await res.json();
+    document.getElementById('stat-recetas').textContent = recetas.length;
+  } catch(e) {
+    document.getElementById('stat-recetas').textContent = '0';
+  }
+  // Cargar favoritos reales del usuario
+  if (usuarioActual && usuarioActual.id) {
+    try {
+      const resFav = await fetch(`${API_URL}/favoritos/${usuarioActual.id}`);
+      const favs   = await resFav.json();
+      document.getElementById('stat-favoritos').textContent = favs.length;
+    } catch(e) {
+      document.getElementById('stat-favoritos').textContent = '0';
+    }
+  } else {
+    document.getElementById('stat-favoritos').textContent = '0';
+  }
+}
+
+/* ── GUARDAR INFO PERSONAL ── */
+// Los datos extra se guardan en 'perfil_datos' — clave permanente que
+// NO se borra al cerrar sesión. Al volver a iniciar sesión se fusionan.
+async function guardarInfo() {
+  const nombre   = document.getElementById('edit-nombre').value.trim();
+  const email    = document.getElementById('edit-email').value.trim();
+  const telefono = document.getElementById('edit-telefono').value.trim();
+  const edad     = document.getElementById('edit-edad').value;
+  const genero   = document.getElementById('edit-genero').value;
+  const interes  = document.getElementById('edit-interes').value;
+  const mensaje  = document.getElementById('edit-mensaje').value.trim();
+
+  if (!nombre || !email) return mostrarToast('Nombre y correo son obligatorios', 'error');
+
+  // 1. Guardar en backend si hay usuario con id
+  if (usuarioActual && usuarioActual.id) {
+    try {
+      const res = await fetch(`${API_URL}/usuarios/${usuarioActual.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, telefono: telefono||null, edad: edad?parseInt(edad):null, genero:genero||null, interes:interes||null, mensaje:mensaje||null })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        mostrarToast('✅ Información actualizada');
+      } else {
+        mostrarToast('Error al actualizar en el servidor', 'error');
+      }
+    } catch(e) {
+      mostrarToast('Error conectando con el servidor', 'error');
+    }
+  }
+
+  // 2. Guardar localmente siempre (persiste entre sesiones)
+  const datosPerfil = { nombre, email, telefono, edad, genero, interes, mensaje };
+  localStorage.setItem('perfil_datos', JSON.stringify(datosPerfil));
+  usuarioActual = { ...usuarioActual, ...datosPerfil };
+  localStorage.setItem('usuario', JSON.stringify(usuarioActual));
+  cargarDatosUsuario();
+}
+
+// Fusiona perfil_datos con el usuario al iniciar sesión
+function fusionarDatosPerfil() {
+  const extra = JSON.parse(localStorage.getItem('perfil_datos') || 'null');
+  if (extra && usuarioActual) {
+    usuarioActual = { ...usuarioActual, ...extra };
+    localStorage.setItem('usuario', JSON.stringify(usuarioActual));
+  }
+}
+
+/* ── FOTO DE PERFIL ── */
+function previsualizarFoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) return mostrarToast('La imagen debe ser menor a 2MB', 'error');
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    fotoSeleccionada = e.target.result;
+    actualizarPreviewFoto(fotoSeleccionada);
+    mostrarToast('📷 Foto lista — haz clic en Guardar');
+  };
+  reader.readAsDataURL(file);
+}
+
+function actualizarPreviewFoto(src) {
+  const inicialEl = document.getElementById('preview-inicial');
+  const fotoEl    = document.getElementById('preview-foto');
+  if (src && src.length < 10) {
+    inicialEl.textContent = src; inicialEl.style.display = '';
+    fotoEl.style.display = 'none';
+  } else {
+    fotoEl.src = src; fotoEl.style.display = '';
+    inicialEl.style.display = 'none';
+  }
+  // Quitar selected de avatares
+  document.querySelectorAll('.avatar-opcion').forEach(a => a.classList.remove('selected'));
+}
+
+function elegirAvatar(emoji) {
+  fotoSeleccionada = emoji;
+  document.getElementById('preview-inicial').textContent = emoji;
+  document.getElementById('preview-inicial').style.display = '';
+  document.getElementById('preview-foto').style.display = 'none';
+  document.querySelectorAll('.avatar-opcion').forEach(a => {
+    a.classList.toggle('selected', a.textContent.trim() === emoji);
+  });
+  mostrarToast('Avatar seleccionado — haz clic en Guardar');
+}
+
+function guardarFoto() {
+  if (!fotoSeleccionada) return mostrarToast('Selecciona una foto o avatar primero', 'error');
+  localStorage.setItem('perfil_foto', fotoSeleccionada);
+  mostrarToast('✅ Foto de perfil actualizada');
+  cargarDatosUsuario();
+}
+
+function eliminarFoto() {
+  fotoSeleccionada = null;
+  localStorage.removeItem('perfil_foto');
+  document.getElementById('preview-inicial').textContent = usuarioActual?.nombre?.[0]?.toUpperCase() || 'U';
+  document.getElementById('preview-inicial').style.display = '';
+  document.getElementById('preview-foto').style.display = 'none';
+  document.querySelectorAll('.avatar-opcion').forEach(a => a.classList.remove('selected'));
+  mostrarToast('🗑️ Foto eliminada');
+  cargarDatosUsuario();
+}
+
+/* ── CAMBIAR CONTRASEÑA ── */
+function medirFortaleza(val) {
+  const fill  = document.getElementById('strength-fill');
+  const label = document.getElementById('strength-label');
+  let score = 0;
+  if (val.length >= 8)  score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+
+  const niveles = [
+    { pct:'0%',   color:'transparent', txt:'Ingresa una contraseña' },
+    { pct:'25%',  color:'var(--rojo)', txt:'Muy débil' },
+    { pct:'50%',  color:'var(--naranja)', txt:'Débil' },
+    { pct:'75%',  color:'var(--amarillo)', txt:'Aceptable' },
+    { pct:'100%', color:'var(--verde)', txt:'Fuerte ✅' },
+  ];
+  const n = val.length === 0 ? 0 : Math.max(1, score);
+  fill.style.width      = niveles[n].pct;
+  fill.style.background = niveles[n].color;
+  label.textContent     = niveles[n].txt;
+}
+
+function verificarCoincidencia() {
+  const nueva     = document.getElementById('pass-nueva').value;
+  const confirmar = document.getElementById('pass-confirmar').value;
+  const status    = document.getElementById('pass-status');
+  if (!confirmar) { status.textContent = ''; return; }
+  status.textContent = nueva === confirmar ? '✅' : '❌';
+}
+
+async function cambiarPassword() {
+  const actual    = document.getElementById('pass-actual').value;
+  const nueva     = document.getElementById('pass-nueva').value;
+  const confirmar = document.getElementById('pass-confirmar').value;
+
+  if (!actual || !nueva || !confirmar) return mostrarToast('Completa todos los campos', 'error');
+  if (nueva.length < 8) return mostrarToast('La nueva contraseña debe tener al menos 8 caracteres', 'error');
+  if (nueva !== confirmar) return mostrarToast('Las contraseñas no coinciden', 'error');
+
+  const email = usuarioActual.email;
+
+  // Paso 1: verificar contraseña actual con login
+  try {
+    const resLogin = await fetch(`${API_URL}/usuarios/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre: 'login', email, password: actual })
+    });
+
+    if (!resLogin.ok) {
+      return mostrarToast('❌ Contraseña actual incorrecta', 'error');
+    }
+  } catch(e) {
+    return mostrarToast('Error verificando contraseña', 'error');
+  }
+
+  // Paso 2: re-registrar con nueva contraseña manteniendo todos los datos
+  try {
+    const datosActuales = { ...usuarioActual };
+    const res = await fetch(`${API_URL}/usuarios/${usuarioActual.id}/password`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        password_actual: actual,
+        password_nueva:  nueva
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      mostrarToast('✅ Contraseña actualizada. Inicia sesión de nuevo.');
+      document.getElementById('pass-actual').value    = '';
+      document.getElementById('pass-nueva').value     = '';
+      document.getElementById('pass-confirmar').value = '';
+      medirFortaleza('');
+      document.getElementById('pass-status').textContent = '';
+      setTimeout(() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = 'Registro.html';
+      }, 2000);
+    } else {
+      const data = await res.json();
+      mostrarToast(data.detail || 'Contraseña actual incorrecta', 'error');
+    }
+  } catch(e) {
+    mostrarToast('Error conectando con el servidor', 'error');
+  }
+}
+
+/* ── MIS RECETAS ── */
+async function cargarMisRecetas() {
+  const grid = document.getElementById('mis-recetas-grid');
+
+  // Agregar panel de favoritos si no existe
+  let favPanel = document.getElementById('mis-favoritos-panel');
+  if (!favPanel) {
+    const recetasPanel = grid.closest('.panel-card');
+    if (recetasPanel) {
+      const div = document.createElement('div');
+      div.className = 'panel-card';
+      div.style.marginTop = '1.25rem';
+      div.innerHTML = `
+        <div class="panel-card-header">
+          <div>
+            <h3>❤️ Mis favoritos</h3>
+            <p>Recetas que has guardado como favoritas</p>
+          </div>
+        </div>
+        <div class="panel-card-body">
+          <div class="mis-recetas-grid" id="mis-favoritos-panel"></div>
+        </div>`;
+      recetasPanel.parentNode.insertBefore(div, recetasPanel.nextSibling);
+      favPanel = document.getElementById('mis-favoritos-panel');
+    }
+  }
+
+  // Cargar solo las recetas del usuario
+  try {
+    const url = usuarioActual && usuarioActual.id
+      ? `${API_URL}/recetas/?usuario_id=${usuarioActual.id}`
+      : `${API_URL}/recetas/`;
+    const res = await fetch(url);
+    const recetas = await res.json();
+    if (!recetas.length) {
+      grid.innerHTML = `<p style="color:var(--text-hint);font-size:0.875rem;grid-column:1/-1;">
+        Aún no has publicado recetas.
+        <a href="Recetas.html" style="color:var(--azul);font-weight:700;">Publicar mi primera receta →</a>
+      </p>`;
+    } else {
+      grid.innerHTML = recetas.map(r => `
+        <div class="mini-receta-card">
+          <div class="mini-receta-emoji">🍽️</div>
+          <div class="mini-receta-info">
+            <h4>${r.titulo}</h4>
+            <p>📍 ${r.region}</p>
+          </div>
+        </div>`).join('');
+    }
+  } catch(e) {
+    grid.innerHTML = '<p style="color:var(--text-hint);font-size:0.875rem;grid-column:1/-1;">No se pudieron cargar las recetas.</p>';
+  }
+
+  // Cargar favoritos reales del usuario desde el backend
+  if (!favPanel) return;
+  if (!usuarioActual || !usuarioActual.id) {
+    favPanel.innerHTML = '<p style="color:var(--text-hint);font-size:0.875rem;">Inicia sesión para ver tus favoritos.</p>';
+    return;
+  }
+  try {
+    const resFav  = await fetch(`${API_URL}/favoritos/${usuarioActual.id}`);
+    const favs    = await resFav.json();
+    if (!favs.length) {
+      favPanel.innerHTML = `<p style="color:var(--text-hint);font-size:0.875rem;grid-column:1/-1;">
+        No tienes recetas favoritas aún.
+        <a href="Recetas.html" style="color:var(--azul);font-weight:700;">Explorar recetas →</a>
+      </p>`;
+      return;
+    }
+    // Para cada favorito cargar el detalle de la receta
+    const detalles = await Promise.all(
+      favs.map(f => fetch(`${API_URL}/recetas/${f.receta_id}`).then(r => r.json()).catch(() => null))
+    );
+    favPanel.innerHTML = detalles.filter(Boolean).map(r => `
+      <div class="mini-receta-card">
+        <div class="mini-receta-emoji">❤️</div>
+        <div class="mini-receta-info">
+          <h4>${r.titulo}</h4>
+          <p>📍 ${r.region}</p>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    favPanel.innerHTML = '<p style="color:var(--text-hint);font-size:0.875rem;">No se pudieron cargar los favoritos.</p>';
+  }
+}
+
+/* ── ZONA DE PELIGRO ── */
+function confirmarAccion(mensaje, callback) {
+  if (confirm(mensaje)) callback();
+}
+
+async function borrarRecetas() {
+  if (!confirm('Eliminar TODAS tus recetas permanentemente. Esta accion no se puede deshacer.')) return;
+  if (!usuarioActual || !usuarioActual.id) return mostrarToast('Debes iniciar sesion', 'error');
+  try {
+    const res = await fetch(API_URL + '/recetas/?usuario_id=' + usuarioActual.id);
+    const recetas = await res.json();
+    if (!recetas.length) { mostrarToast('No tienes recetas para borrar', 'error'); return; }
+    let borradas = 0;
+    for (const r of recetas) {
+      const del = await fetch(API_URL + '/recetas/' + r.id, { method: 'DELETE' });
+      if (del.ok) borradas++;
+    }
+    mostrarToast(borradas + ' recetas eliminadas');
+    cargarMisRecetas();
+  } catch(e) {
+    mostrarToast('Error al eliminar recetas', 'error');
+  }
+}
+
+async function eliminarCuenta() {
+  try {
+    const res = await fetch(`${API_URL}/usuarios/${usuarioActual.id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${getToken()}` }
+    });
+    if (res.ok) {
+      localStorage.removeItem('usuario');
+      localStorage.removeItem('token');
+      localStorage.removeItem('perfil_foto');
+      mostrarToast('Cuenta eliminada. Hasta pronto.');
+      setTimeout(() => window.location.href = 'PaginaInicial.html', 1500);
+    } else { mostrarToast('Error al eliminar la cuenta', 'error'); }
+  } catch(e) { mostrarToast('Error de conexión', 'error'); }
+}
+
+/* ── NAVEGACIÓN ENTRE PANELES ── */
+function irPanel(id, el) {
+  document.querySelectorAll('.perfil-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${id}`).classList.add('active');
+  document.querySelectorAll('.perfil-nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
+</script>
+</body>
+</html>
