@@ -1,310 +1,302 @@
-![AWS EC2](https://img.shields.io/badge/deploy-AWS%20EC2-orange?logo=amazon-aws)
-![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)
-![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)
+# 🇨🇴 Sabores Colombianos
 
+![GCP Cloud Run](https://img.shields.io/badge/deploy-Google%20Cloud%20Run-blue?logo=google-cloud)
+![FastAPI](https://img.shields.io/badge/backend-FastAPI-green?logo=fastapi)
+![PostgreSQL](https://img.shields.io/badge/database-PostgreSQL-blue?logo=postgresql)
+![JavaScript](https://img.shields.io/badge/frontend-HTML%2FJS%2FCSS-yellow?logo=javascript)
 
-# 💛💙❤️ **RECETARIO COLOMBIANO**
+Plataforma web full-stack para explorar, compartir y aprender recetas tradicionales colombianas. Desarrollada con FastAPI, PostgreSQL en Cloud SQL y desplegada en Google Cloud Platform.
 
-Esta plataforma web esta diseñada par que los amantes de la cocina pueden explorar, aprender y compartir recetas auténticas de todas las regiones del país de Colombia
+---
 
-## 🔎 ¿Qué se puede hacer en la app?
+## 👥 Equipo de Desarrollo
 
-__Descubrir recetas tradicionales:__ Se podran encuentrar platos típicos de cada rincón de Colombia, con ingredientes y pasos detallados.
+| Nombre | Rol |
+|--------|-----|
+| Alexandra Rivera | Product Owner · Backend Developer · Frontend Developer · DevOps Engineer |
 
-__Aprender a cocinar:__ Tutoriales fáciles de seguir, desde el sancocho hasta los buñuelos.
+---
 
-__Unirte a la comunidad:__ Regístrate para guardar tus recetas favoritas, comentar y compartir tus propias creaciones culinarias.
+## 🌐 URLs de acceso
 
-## ✍️ Como funciona
+| Servicio | URL |
+|---------|-----|
+| **Frontend** | https://recetario-frontend-276307409989.us-central1.run.app |
+| **Backend API** | https://recetario-backend-276307409989.us-central1.run.app |
+| **Documentación API** | https://recetario-backend-276307409989.us-central1.run.app/docs |
+| **GitHub Project** | https://github.com/Alexandra510R/Recetario/projects |
 
-La aplicación está organizada en tres secciones principales, cada una accesible desde el menú: Inicio, Recetario y Formulario.
+---
 
-Inicio: Presenta una breve descripción de la propuesta de la aplicación, acompañada de un video musical colombiano que resalta la riqueza cultural y las bellezas de nuestra región.
+## 🛠️ Stack tecnológico
 
-Recetario: Ofrece tres recetas tradicionales colombianas, con el listado detallado de ingredientes y un video explicativo que guía paso a paso en la preparación de cada plato.
+| Capa | Tecnología |
+|------|-----------|
+| Backend | FastAPI (Python) |
+| Base de datos | PostgreSQL — Cloud SQL |
+| Frontend | HTML5 / CSS3 / JavaScript |
+| Autenticación | JWT (python-jose) |
+| ORM | SQLAlchemy |
+| Hosting | Google Cloud Run |
+| Contenedor | Docker |
+| CI/CD | GitHub Actions + Google Cloud Build |
 
-Formulario: Contiene un espacio de registro que permite a los usuarios inscribirse para seguir recibiendo nuevos recetarios o, si lo desean, compartir sus propios conocimientos gastronómicos.
+---
 
-# 📋 Requisitos Previos
+## ☁️ Servicios GCP utilizados
 
-- Instancia EC2 creada y corriendo
-- Security Group configurado con puertos 22 (SSH) y 8000 (desarrollo)
-- Acceso SSH a la instancia
-- Descarga de repositorio GitHub
+| Servicio | Uso |
+|---------|-----|
+| Cloud Run | Hosting del backend y frontend |
+| Cloud SQL (PostgreSQL) | Base de datos relacional |
+| Artifact Registry | Almacenamiento de imágenes Docker |
+| Cloud Build | Build y deploy automatizado |
+| Secret Manager | Variables de entorno seguras |
 
-# 🧱 Pasos de implementación
+---
 
-Antes de la implementación, es necesario contar con una instancia configurada y con la aplicación web que se desea desplegar para llevar a cabo el proceso.
-
-## ▶️ Paso 1: Conectarse a la Instancia EC2
-
-1. Ve a AWS Console → EC2 → Instances
-2. Selecciona tu instancia
-3. Clic en "Connect"
-4. Selecciona "EC2 Instance Connect"
-5. Clic en "Connect"
-
-## 🔧 Paso 2: Preparar el Entorno
-
-Actualizar sistema e instalar dependencias:
-
-```
-sudo apt update
-sudo apt upgrade -y
-sudo apt install python3-pip python3-venv
-```
-
-## ⏬ Paso 3: Clonar el Repositorio
-
-- Ingresar a [GitHub](https://github.com/?utm_source=chatgpt.com)
-- Crear un nuevo repositorio en tu cuenta.
-- Seleccionar la opción <> Code y copiar la URL del repositorio.
-- Abrir la terminal y ejecutar el siguiente comando para clonar el repositorio:
+## 🏗️ Arquitectura del sistema
 
 ```
+Usuario
+   │
+   ▼
+Cloud Run (Frontend)
+HTML / CSS / JS
+   │
+   ▼ HTTPS REST API
+Cloud Run (Backend)
+FastAPI + SQLAlchemy
+   │
+   ▼
+Cloud SQL
+PostgreSQL
+```
+
+---
+
+## 📁 Estructura del repositorio
+
+```
+Recetario/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                   ← CI: tests y build automático
+│       └── project-automation.yml  ← Automatización del tablero Kanban
+├── backend/
+│   ├── main.py              ← Aplicación FastAPI principal
+│   ├── models.py            ← Modelos SQLAlchemy
+│   ├── schemas.py           ← Schemas Pydantic
+│   ├── database.py          ← Conexión a PostgreSQL
+│   ├── requirements.txt     ← Dependencias Python
+│   └── routers/
+│       ├── usuarios.py      ← Endpoints de usuarios
+│       ├── recetas.py       ← Endpoints de recetas
+│       ├── favoritos.py     ← Endpoints de favoritos
+│       └── comentarios.py   ← Endpoints de comentarios
+├── src/
+│   ├── PaginaInicial.html
+│   ├── Recetas.html
+│   ├── Registro.html
+│   ├── Perfil.html
+│   ├── IaChef.html
+│   ├── Calendario.html
+│   ├── Admin.html
+│   ├── SaberMas.html
+│   ├── script.js
+│   └── css/
+│       └── style.css
+├── Docs/
+│   ├── README-api.md
+│   └── README-deployment.md
+├── Dockerfile               ← Frontend
+├── Dockerfile.backend       ← Backend
+├── cloudbuild.yaml          ← Build backend
+├── cloudbuild-frontend.yaml ← Build frontend
+└── default.conf             ← Configuración nginx
+```
+
+---
+
+## 📋 Metodología de Gestión — Kanban
+
+El proyecto se gestionó con **GitHub Projects** usando metodología Kanban con las siguientes columnas:
+
+`Backlog → Ready → In Progress → In Review → Done`
+
+### Campos personalizados configurados:
+| Campo | Valores |
+|-------|---------|
+| Sprint | Sprint 1, Sprint 2, Sprint 3 |
+| Prioridad | Alta, Media, Baja |
+| Estimación | 1, 2, 3, 5, 8 (puntos de historia) |
+| Tipo | Feature, Bug, Documentation, DevOps |
+
+### Estrategia de ramas:
+```
+main
+├── feature/sprint1-autenticacion-jwt
+├── feature/sprint2-pagina-principal
+├── feature/sprint3-despliegue-gcp
+└── feature/sprint3-github-actions
+```
+
+---
+
+## 🏃 Sprints Completados
+
+### Sprint 1 — Backend & Base de datos
+| Historia | Puntos | Estado |
+|----------|--------|--------|
+| HU-01: Registro de usuarios | 3 | ✅ Done |
+| HU-02: Autenticación con JWT | 3 | ✅ Done |
+| HU-03: CRUD de recetas | 5 | ✅ Done |
+| HU-04: Categorías y filtros | 3 | ✅ Done |
+| HU-05: Sistema de favoritos | 3 | ✅ Done |
+| HU-06: Modelo de BD PostgreSQL | 2 | ✅ Done |
+
+**Velocity Sprint 1: 19 puntos**
+
+Evidencias: rama `feature/sprint1-autenticacion-jwt` → PR #30 mergeado a `main`.
+
+---
+
+### Sprint 2 — Frontend & UX
+| Historia | Puntos | Estado |
+|----------|--------|--------|
+| HU-07: Página principal con recetas | 3 | ✅ Done |
+| HU-08: Formulario de creación de receta | 3 | ✅ Done |
+| HU-09: Buscador de recetas | 3 | ✅ Done |
+| HU-10: Perfil de usuario | 2 | ✅ Done |
+| HU-11: Vista detallada de receta | 2 | ✅ Done |
+| HU-12: Diseño responsive | 3 | ✅ Done |
+
+**Velocity Sprint 2: 16 puntos**
+
+Evidencias: rama `feature/sprint2-pagina-principal` → PR mergeado a `main`.
+
+---
+
+### Sprint 3 — Despliegue & DevOps
+| Historia | Puntos | Estado |
+|----------|--------|--------|
+| HU-13: Dockerización de la aplicación | 3 | ✅ Done |
+| HU-14: Pipeline CI/CD con GitHub Actions | 5 | ✅ Done |
+| HU-15: Despliegue en GCP | 5 | ✅ Done |
+| HU-16: Gestión de secretos y variables | 2 | 👀 In Review |
+| HU-17: Monitoreo y logs en GCP | 3 | 🔧 In Progress |
+| HU-18: Documentación completa | 2 | 🔧 In Progress |
+
+**Velocity Sprint 3: 15 puntos completados**
+
+Evidencias: ramas `feature/sprint3-despliegue-gcp` y `feature/sprint3-github-actions` → PRs mergeados a `main`.
+
+---
+
+## 📊 Métricas del Proyecto
+
+| Métrica | Valor |
+|---------|-------|
+| **Velocity promedio** | 17 puntos por sprint |
+| **Total puntos completados** | 50 / 56 puntos |
+| **Historias completadas** | 15 / 18 historias |
+| **Historias en progreso** | 3 / 18 |
+| **Bugs encontrados** | 5 |
+| **Bugs resueltos** | 5 |
+| **Pull Requests realizados** | 4 |
+| **Ramas creadas** | 4 feature branches |
+| **Sprints completados** | 3 / 3 |
+
+---
+
+## ⚙️ Instalación local
+
+### Requisitos previos
+- Python 3.11+
+- PostgreSQL o acceso a Cloud SQL
+- Git
+
+### 1. Clonar el repositorio
+```bash
 git clone https://github.com/Alexandra510R/Recetario.git
+cd Recetario
 ```
 
-- Crear un nuevo repositorio en tu cuenta.
+### 2. Configurar el backend
+```bash
+cd backend
+pip install -r requirements.txt
 
-Seleccionar la opción <> Code y copiar la URL del repositorio.
+# Configurar variable de entorno
+export DATABASE_URL="postgresql://usuario:password@localhost/recetario_db"
 
-Abrir la terminal y ejecutar el siguiente comando para clonar el repositorio:
-``cd Recetario``
-
-## 💻 Paso 4: CREAR ESTRUCTURA DE APLICACIÓN
-
-- HTML/CSS/JS desde Visual Studio Code
-- Asegurar que los archivos esten creados en la carpeta del respositorio
-
-## 🔁 Paso 5: Actualizaciones
-
-- Para enviar los cambios realizados desde tu equipo local al repositorio en GitHub, sigue estos pasos en la terminal:
-
-```
-git add . # Añade todos los cambios realizados
-git commit -m "Mensaje descriptivo"   # Registra los cambios con un comentario
-git push origin main   # Envía los cambios al repositorio remoto en la rama principal
-
+# Ejecutar
+uvicorn main:app --reload --port 8000
 ```
 
-- Finalmente, confirma en la página del repositorio [GitHub](https://github.com/Alexandra510R/Recetario.git)
-
-## 📰 Paso 6: Configurar Entorno Virtual
-
-- ### Crear entorno virtual
-
-  ```python3 -m venv .venv```
-- ### Activar entorno virtual
-
-  ```source .venv/bin/**activate```
-  📦 Paso 5: Instalar Dependencias
-  ```pip install -r requirements.txt```
-
-## 📂 Paso 7: Configurar Base de Datos
-
-- ### Crear archivos de migración
-
-  ```python manage.py makemigrations```
-- ### Aplicar migraciones
-
-  ```python manage.py migrate```
-
-## 🔂 Paso 8: Ejecutar el Servidor de Desarrollo
-
-```python3 -m http.server 8000```
-
-## 🌐 Paso 9: Acceder a la Aplicación
-
-Ir al navegador:
-
-```http://3.144.32.107:8000/PaginaInicial.html```
-
-## 🛑 Paso 10: Detener el Servidor
-
-Presiona Ctrl + C en la terminal o utilizar el comando ``pkill -f "http.server``
-
-# ⚙️ Automatización con GitHub Actions
-
-### A continuación, se describen los pasos realizados para la configuración de un flujo de automatización inicial con GitHub Actions:
-
-### 1. Preparación del Repositorio Existente
-
-- Se utilizó el repositorio creado en el paso anterior.
-- Se agregó una prueba / validación básica en JavaScript.
-  ``` 
-  describe('Basic Math Tests', () => { 
-  test('basic arithmetic should work', () => { 
-    expect(1 + 1).toBe(2); 
-    expect(2 * 3).toBe(6); 
-  }); 
-  }); ``` 
-- Se verificó la presencia del archivo de dependencias package.json.
-  ```
-  {
-    "name": "my-app-tests",
-    "scripts": {
-    "test": "jest"
-    },
-    "devDependencies": {
-    "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.0.0"
-    },
-    "jest": {
-    "testEnvironment": "jsdom"
-    }
-  }
-  ```
-### 2. Configuración Básica de GitHub Actions
-
-- Se creó la carpeta .github/workflows/ y se crea el archivo .yml con la siguiente estructura.
-  ```
-  name: JavaScript CI
-
-    on:
-        push:
-            branches: [main]
-
-    jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout repository
-            uses: actions/checkout@v3
-
-        - name: Setup Node.js
-            uses: actions/setup-node@v3
-            with:
-            node-version: '18'
-
-        - name: Install dependencies
-            run: npm install
-
-        - name: Run tests
-            run: npm test
-
-        - name: Validate HTML structure
-            run: |
-            if [ ! -f "PaginaInicial.html" ]; then
-            echo "Error: HTML file not found"
-            exit 1
-            fi
-            echo "HTML validation passed"
-
-  ```
-- Se configuraron validaciones básicas sobre HTML, CSS y JavaScript.
-- Se añadió un badge de estado en el archivo README.md para mostrar los resultados de la automatización.![alt text](/Imagenes/image.png)
- 
-        ```![JavaScript CI](https://github.com/Alexandra510R/Recetario/workflows/JavaScript%20CI/badge.svg)``` 
-
-# Comprobación funcionamiento workflow
-![alt text](/Imagenes/image-1.png)
-
-# 📚 ¿Que es y que hace workflow?
-
-__El workflow__ automatiza tareas dentro del repositorio.
-En este caso, se ejecuta cada vez que se suben cambios y se encarga de:
-
-Descargar el proyecto.
-
-Validar que los archivos (HTML, CSS, JS) no tengan errores básicos.
-
-Ejecutar pruebas definidas en la carpeta test/.
-
-Mostrar en GitHub si la ejecución fue exitosa ✅ o si hubo errores ❌ mediante un badge en el README.md.
-
-#  Erores encontrados al momento de la implementación
-
-### 1. Error de sintaxis en archivo .yml
-
-![](/Imagenes/error1.png)
-
-__Causa:__ Uso incorrecto de tabuladores en la estructura del archivo, lo cual no es soportado por YAML.
-
-__Solución:__ Se corrigió la sintaxis reemplazando los tabuladores por espacios, garantizando la correcta indentación del archivo.
-
-### 2. Error: No se localizó el repositorio
-![](/Imagenes/error2.png)
-
-__Causa:__ El workflow no logró resolver la acción htmllint/htmllint-action debido a que no se encontraba el repositorio especificado o la ruta definida era incorrecta.
-
-__Solución:__ Se modificó el código del workflow, reemplazando la referencia incorrecta a src/index.html por la ruta real del archivo en el repositorio: PaginaInicial.html.
-
-
-# 🐳 Containerización con Docker
-
-La containerización consiste en empaquetar una aplicación junto con sus dependencias dentro de un contenedor.
-En este proyecto utilizamos Docker para crear una imagen ligera que incluye Nginx y los archivos estáticos de la aplicación (HTML, CSS y JavaScript).
-
-__🔹 Beneficios__
-
-Portabilidad: el contenedor funciona en cualquier máquina que tenga Docker.
-
-Aislamiento: no depende de la configuración del sistema anfitrión.
-
-Reproducibilidad: el mismo Dockerfile asegura que el entorno sea siempre idéntico.
-
-Escalabilidad: se pueden crear múltiples instancias fácilmente.
-
-## ⚙️ Requisitos previos para Docker Desktop en Windows
-
-* Docker instalado en tu máquina. Puedes obtenerlo desde: [Instalar Docker](https://docs.docker.com/get-started/get-docker/)
-* Docker Desktop (Windows):
-  - Windows 10/11 Pro, Enterprise o Education (para usar WSL 2 o Hyper-V).
-  - WSL 2 habilitado (Subsistema de Windows para Linux).
-  - Virtualización activada.
-  
-__⚠️ Nota: En Windows Home, Docker Desktop funciona únicamente con WSL 2, por lo que es necesario habilitarlo antes de la instalación.__
-
-
-## 🛠️ Construcción de la imagen
-
-Ejecuta en la raíz del proyecto:
-
-``` docker build -t recetario . ```
-
-Este comando:
-
-* Construye la imagen a partir del Dockerfile.
-* Copia los archivos de src/ a la carpeta de Nginx dentro del contenedor.
-* Expone el puerto 80 para servir la aplicación.
-
-## ▶️ Ejecución del contenedor
-
-Corre el contenedor mapeando el puerto 8080 del host al puerto 80 del contenedor:
-
-``` docker run -d -p 8080:80 recetario ```
-
-Este comando:
-
-* Construye el Docker
-* Crea el puerto teniendo en cuenta la imagen creada
-* Permite desde Docker Desktop ingresar a la pagina web
-
-## 🌐 Acceso a la aplicación
-
-Una vez el contenedor esté en ejecución, accede en tu navegador a:
-
-👉 http://localhost:8080
-
-## ⚖️ Comparación antes/después de containerizar
-
-| Aspecto    | Antes (sin contenedor) | Después (con Docker)  |
-|-----------|------|-----------|
-| Configuración del entorno | Requiere instalar Nginx manualmente y configurar rutas.   | Un Dockerfile define todo el entorno automáticamente.   |
-| Portabilidad | Depende del sistema operativo y de configuraciones locales.  | Funciona en cualquier máquina con Docker. |
-| Consistencia     | Puede variar entre desarrollo, pruebas y producción.  | El contenedor asegura que siempre sea el mismo entorno.  |
-| Tiempo de despliegue     | Lento, requiere instalar dependencias.   | Rápido, solo se construye y corre el contenedor.  |
-| Escalabilidad     | Compleja, requiere configurar varios servidores.  | Simple, basta con correr más contenedores.  |
-
-
-# 📊 Resultados Obtenidos
-
-- ✅ Creación de la instancia de manera correcta
-- ✅ Creación del repositorio en GitHub
-- ✅ Desarrollo del aplicativo web Recetario
-- ✅ Implementación de un formulario funcional con validación
-- ✅ Despliegue exitoso del aplicativo en la instancia
-- ✅ Creacion de workflow
-- ✅ Automatización con GitHub Actions
-- ✅ Containerización con Docker
+### 3. Ejecutar el frontend
+```bash
+cd src
+python3 -m http.server 8080
+# Abrir http://localhost:8080/PaginaInicial.html
+```
+
+---
+
+## 🚀 Comandos de despliegue en GCP
+
+```bash
+# Backend
+gcloud builds submit --config cloudbuild.yaml
+gcloud run deploy recetario-backend \
+  --image us-central1-docker.pkg.dev/recetario-495422/recetario-repo/backend:latest \
+  --platform managed --region us-central1 --allow-unauthenticated
+
+# Frontend
+TAG="v$(date +%s)"
+gcloud builds submit --tag gcr.io/recetario-495422/recetario-frontend:$TAG
+gcloud run deploy recetario-frontend \
+  --image gcr.io/recetario-495422/recetario-frontend:$TAG \
+  --platform managed --region us-central1 --allow-unauthenticated
+```
+
+---
+
+## 🔐 Credenciales de prueba
+
+| Campo | Valor |
+|-------|-------|
+| Email | alexandrarivera510@gmail.com |
+| Contraseña | (ver entrega privada) |
+
+---
+
+## ⚠️ Problemas encontrados y soluciones
+
+| Problema | Solución |
+|---------|---------|
+| CORS bloqueando peticiones desde live-server | Configurar `allow_origins=["*"]` en FastAPI middleware |
+| Favoritos con error 500 por recetas inexistentes | Agregar validación de existencia antes de guardar |
+| Columna `usuario_id` no existía en tabla recetas | Crear endpoint `/migrate` para ALTER TABLE en caliente |
+| Tokens JWT expirados sin manejo en frontend | Agregar try/catch y redirect a login |
+| Script duplicado en Admin.html rompía funciones | Limpiar con python script de reemplazo de texto |
+
+---
+
+## 💡 Lecciones Aprendidas
+
+- **Gestión de ramas:** Mantener una rama por funcionalidad facilita el control de cambios y evita conflictos en el código.
+- **Historias de usuario:** Definir criterios de aceptación claros desde el inicio agiliza el desarrollo y la validación.
+- **CI/CD:** Automatizar el build y despliegue con GitHub Actions reduce errores humanos y acelera las entregas.
+- **Kanban:** Mantener el tablero actualizado diariamente permite identificar bloqueos a tiempo.
+- **Docker:** Contenerizar la aplicación desde el inicio garantiza consistencia entre entornos de desarrollo y producción.
+- **Variables de entorno:** Gestionar secretos con GCP Secret Manager es esencial para la seguridad en producción.
+
+---
+
+## 📚 Documentación
+
+- [Backend](./backend/README.md)
+- [API Endpoints](./Docs/README-api.md)
+- [Guía de despliegue](./Docs/README-deployment.md)
+- [Frontend](./src/README.md)
