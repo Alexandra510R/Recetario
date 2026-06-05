@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from .database import engine, Base, get_db
 from .routers import recetas, usuarios, favoritos, comentarios
-from prometheus_fastapi_instrumentator import Instrumentator
 
 Base.metadata.create_all(bind=engine)
 
@@ -24,6 +23,7 @@ app.include_router(usuarios.router, prefix="/usuarios", tags=["Usuarios"])
 app.include_router(recetas.router, prefix="/recetas", tags=["Recetas"])
 app.include_router(favoritos.router, prefix="/favoritos", tags=["Favoritos"])
 app.include_router(comentarios.router, prefix="/comentarios", tags=["Comentarios"])
+app.include_router(exportar.router, prefix="/recetas", tags=["Exportar"])
 
 @app.get("/")
 def root():
