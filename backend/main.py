@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from .database import engine, Base, get_db
 from .routers import recetas, usuarios, favoritos, comentarios
+from prometheus_fastapi_instrumentator import Instrumentator
 
 Base.metadata.create_all(bind=engine)
 
@@ -16,6 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Prometheus metrics
+Instrumentator().instrument(app).expose(app)
+
 app.include_router(usuarios.router, prefix="/usuarios", tags=["Usuarios"])
 app.include_router(recetas.router, prefix="/recetas", tags=["Recetas"])
 app.include_router(favoritos.router, prefix="/favoritos", tags=["Favoritos"])
@@ -24,6 +28,10 @@ app.include_router(comentarios.router, prefix="/comentarios", tags=["Comentarios
 @app.get("/")
 def root():
     return {"mensaje": "Bienvenido al API del Recetario Colombiano CO"}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/migrate")
 def migrate(db: Session = Depends(get_db)):

@@ -299,4 +299,3 @@ gcloud run deploy recetario-frontend \
 - [Backend](./backend/README.md)
 - [API Endpoints](./Docs/README-api.md)
 - [Guía de despliegue](./Docs/README-deployment.md)
-- [Frontend](./src/README.md)
